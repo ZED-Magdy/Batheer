@@ -1,0 +1,26 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.WorkOnAProjectData
+
+<h4>العمل على مشروع</h4>
+<hr />
+<div class="row">
+
+    <div class="custom-control col-md-6 custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="AreYouABeneficiaryOfSocialSecurity">
+        <label class="custom-control-label" for="AreYouABeneficiaryOfSocialSecurity">
+            هل أنت متفرغ وعلى استعداد للعمل على مشروع؟
+        </label>
+    </div>
+
+
+    @*<div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="AreYouFreeAndReadyToWorkOnAproject" /> @Html.DisplayNameFor(model => model.AreYouFreeAndReadyToWorkOnAproject)
+        </label>
+    </div>*@
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

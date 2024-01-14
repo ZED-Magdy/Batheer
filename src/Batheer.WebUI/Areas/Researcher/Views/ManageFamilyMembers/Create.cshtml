@@ -1,0 +1,251 @@
+﻿@model Batheer.Application.FamilyMembers.Commands.CreateFamilyMember.CreateFamilyMemberCommand
+
+
+@{
+    ViewData["Title"] = "Create";
+    bool _readonly = false;
+
+    var FamilyId = ViewBag.FamilyId ?? Model.FamilyId;
+    var familyObjectkey = ViewBag.FamilyObjectkey;
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+
+                <h4>إنشاء فرد بعائلة</h4>
+                <hr />
+
+
+                <form asp-action="Create" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" name="FamilyId" value="@FamilyId" />
+                    <input type="hidden" name="familyObjectkey" value="@familyObjectkey" />
+
+                    <h4>البيانات الشخصية</h4>
+                    <hr />
+                    <div class="row">
+
+                        @*<input type="hidden" asp-for="PersonalDataForm.Id" />*@
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.FirstName" class="control-label">الاسم الأول</label>
+                            <input asp-for="PersonalDataForm.FirstName" class="form-control" asp-is-readonly="_readonly" required />
+                            <span asp-validation-for="PersonalDataForm.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.FatherName" class="control-label">اسم الأب</label>
+                            <input asp-for="PersonalDataForm.FatherName" class="form-control" asp-is-readonly="_readonly" required />
+                            <span asp-validation-for="PersonalDataForm.FatherName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.GrandFatherName" class="control-label">اسم الجد</label>
+                            <input asp-for="PersonalDataForm.GrandFatherName" class="form-control" asp-is-readonly="_readonly" required />
+                            <span asp-validation-for="PersonalDataForm.GrandFatherName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.FamilyName" class="control-label">اسم العائلة</label>
+                            <input asp-for="PersonalDataForm.FamilyName" class="form-control" asp-is-readonly="_readonly" required />
+                            <span asp-validation-for="PersonalDataForm.FamilyName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.IdentityNo" class="control-label">رقم الهوية</label>
+                            @*<input name="PersonalDataForm.IdentityNo" class="form-control" readonly maxlength="10" minlength="10" value="@Model.IdentityNo" />*@
+                            <input asp-for="PersonalDataForm.IdentityNo" class="form-control" maxlength="10" minlength="10" value="@ViewBag.IdentityNo" readonly />
+                            <span asp-validation-for="PersonalDataForm.IdentityNo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.DateOfBirth" class="control-label">تاريخ الميلاد</label>
+                            <input id="dateOfBirth" type="text" class="form-control">
+
+                            <input type="hidden" name="PersonalDataForm.DateOfBirth" id="PersonalDataForm.DateOfBirth" value="" />
+                            <span asp-validation-for="PersonalDataForm.DateOfBirth" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.PlaceOfBirth" class="control-label">مكان الميلاد</label>
+                            <input asp-for="PersonalDataForm.PlaceOfBirth" class="form-control" asp-is-readonly="_readonly" />
+                            <span asp-validation-for="PersonalDataForm.PlaceOfBirth" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.GenderId" class="control-label">الجنس</label>
+                            <select asp-for="PersonalDataForm.GenderId" class="form-control"
+                                    required
+                                    asp-items="@(new SelectList(ViewBag.GenderId, "Id", "Name"))" asp-is-readonly="_readonly">
+                                <option selected disabled value="">--الرجاء الاختيار--</option>
+                            </select>
+                            @*@Html.ValidationMessage("PersonalDataForm.Gender", "", new { @class = "text-danger" })*@
+                            <span asp-validation-for="PersonalDataForm.GenderId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.NationalityId" class="control-label">الجنسية</label>
+                            <select asp-for="PersonalDataForm.NationalityId"
+                                    required
+                                    class="form-control" asp-items="@(new SelectList(ViewBag.NationalityId, "Id", "Name"))" asp-is-readonly="_readonly">
+                                <option selected disabled value="">--الرجاء الاختيار--</option>
+                            </select>
+                            <span asp-validation-for="PersonalDataForm.NationalityId" class="text-danger"></span>
+                        </div>
+                        <div class="custom-file col-md-6">
+                            <label asp-for="PersonalDataForm.IdentityFile" class="control-label">صورة الهوية</label>
+                            <input asp-for="PersonalDataForm.IdentityFile" class="form-control" asp-is-readonly="_readonly" type="file" accept="image/*" required />
+                            @*<label class="custom-file-label" asp-for="PersonalDataForm.IdentityFile">اختر صورة الهوية...</label>*@
+                            <span asp-validation-for="PersonalDataForm.IdentityFile" class="text-danger"></span>
+                        </div>
+
+                        @*<div class="custom-file col-md-6">
+                                <label asp-for="PersonalDataForm.IdentityFile" class="control-label">صورة الهوية</label>
+                                <input asp-for="PersonalDataForm.IdentityFile" class="custom-file-input"
+                                       required
+                                       asp-is-readonly="_readonly" type="file" accept="image/*" />
+                                <label class="custom-file-label" for="validatedCustomFile">اختر الصورة...</label>
+                                <span asp-validation-for="PersonalDataForm.IdentityFile" class="text-danger"></span>
+                            </div>*@
+                        @*<div class="form-group col-md-6">
+                                <label asp-for="PersonalDataForm.PersonalPhotoFilePath" class="control-label">صورة شخصية</label>
+                                <input asp-for="PersonalDataForm.PersonalPhotoFilePath" class="form-control" asp-is-readonly="_readonly" />
+                                <span asp-validation-for="PersonalDataForm.PersonalPhotoFilePath" class="text-danger"></span>
+                            </div>*@
+                        @*<div class="custom-file col-md-6">
+                                <label asp-for="PersonalDataForm.PersonalPhotoFile" class="control-label">صورة شخصية</label>
+                                <input asp-for="PersonalDataForm.PersonalPhotoFile"
+                                       required
+                                       class="custom-file-input" asp-is-readonly="_readonly" type="file" accept="image/*" />
+                                <label class="custom-file-label" for="validatedCustomFile">اختر الصورة...</label>
+                                <span asp-validation-for="PersonalDataForm.PersonalPhotoFile" class="text-danger"></span>
+                            </div>*@
+                        <div class="form-group col-md-6">
+                            <label asp-for="PersonalDataForm.PersonalPhotoFile" class="control-label">صورة شخصية</label>
+                            <input asp-for="PersonalDataForm.PersonalPhotoFile" class="form-control" asp-is-readonly="_readonly" type="file" accept="image/*" required />
+                            @*<label class="custom-file-label" asp-for="PersonalDataForm.PersonalPhotoFile">اختر الصورة الشخصية...</label>*@
+                            <span asp-validation-for="PersonalDataForm.PersonalPhotoFile" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group col-md-6">
+                                <label asp-for="PersonalDataForm.IdentityFilePath" class="control-label">صورة الهوية</label>
+                                <input asp-for="PersonalDataForm.IdentityFilePath" class="form-control" asp-is-readonly="_readonly" />
+                                <span asp-validation-for="PersonalDataForm.IdentityFilePath" class="text-danger"></span>
+                            </div>*@
+                        @*<div class="form-group col-md-6">
+                                <label asp-for="PersonalDataForm.PersonalPhotoFilePath" class="control-label">صورة شخصية</label>
+                                <input asp-for="PersonalDataForm.PersonalPhotoFilePath" class="form-control" asp-is-readonly="_readonly" />
+                                <span asp-validation-for="PersonalDataForm.PersonalPhotoFilePath" class="text-danger"></span>
+                            </div>*@
+                    </div>
+
+                    <h4>البيانات التعليمية</h4>
+                    <hr />
+                    <div class="form-group col-md-6">
+                        <label asp-for="EducationalData.EducationalLevelId" class="control-label">المستوى الدراسي</label>
+                        <select asp-for="EducationalData.EducationalLevelId" class="form-control" required
+                                asp-items="@(new SelectList(ViewBag.EducationalLevelId, "Id", "Name"))">
+                            <option selected disabled value="">--الرجاء الاختيار--</option>
+                        </select>
+                        <span asp-validation-for="EducationalData.EducationalLevelId" class="text-danger"></span>
+                    </div>
+
+
+                    <h4>بيانات الحالة الصحية</h4>
+                    <hr />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="HealthStatusData.HealthStatusId" class="control-label">الحالة الصحية</label>
+                            <select asp-for="HealthStatusData.HealthStatusId" class="form-control" required
+                                    asp-items="@(new SelectList(ViewBag.HealthStatusId, "Id", "Name"))">
+                                <option selected disabled value="">--الرجاء الاختيار--</option>
+                            </select>
+                            <span asp-validation-for="HealthStatusData.HealthStatusId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="HealthStatusData.Others" class="control-label">أخرى</label>
+                            <input asp-for="HealthStatusData.Others" class="form-control" />
+                            <span asp-validation-for="HealthStatusData.Others" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="HealthStatusData.Description" class="control-label">نوع المرض أو الإعاقة إن وجد</label>
+                            <input asp-for="HealthStatusData.Description" class="form-control" />
+                            <span asp-validation-for="HealthStatusData.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="إنشاء الطلب" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+
+                <div>
+                    <a asp-action="Index" asp-route-familyObjectkey="@ViewBag.FamilyObjectkey">عودة للقائمة</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+
+        (function () {
+            $("#dateOfBirth").hijriDatePicker({
+
+                format: 'D/M/YYYY',
+                hijriFormat: 'iD/iM/iYYYY'
+            });
+            $("#dateOfBirth").on('dp.change', function (event) {
+
+                var input = $('[name$="PersonalDataForm.DateOfBirth"]');
+                if (!event.date) {
+                    $(input).val('');
+                    return;
+                };
+
+                let date = event.date;
+
+                $(input).val(date.format("YYYY/M/D"));
+
+                console.log(event.date);
+                //console.log($(this).data('date'));
+            });
+
+            var MAX_FILE_SIZE = 0.5 * 1024 * 1024; // 0.5MB
+
+            $('input[type="file"]').change(function () {
+                fileSize = this.files[0].size;
+                if (fileSize > MAX_FILE_SIZE) {
+                    this.setCustomValidity("حجم الملف أكبر من 512 كيلو بايت");
+
+                    $("<span class='text-danger field-validation-error'><span>حجم الملف أكبر من 512 كيلو بايت.</span></span>").insertAfter(this);
+                    this.reportValidity();
+                } else {
+                    $(this).next().remove()
+                    this.setCustomValidity("");
+                }
+            });
+
+        })();
+
+    </script>
+}

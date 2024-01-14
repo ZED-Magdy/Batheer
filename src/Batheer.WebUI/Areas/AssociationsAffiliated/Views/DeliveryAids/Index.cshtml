@@ -1,0 +1,93 @@
+﻿@model Batheer.Application.DeliveryAids.Queries.SearchByReceivedCode.SearchByReceivedCodeQuery
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+
+@using Batheer.WebUI.Utls;
+@{
+    ViewBag.Title = "تسليم الإعانات";
+
+    var queryResult = ViewBag.QueryResult as Batheer.Application.DeliveryAids.Queries.SearchByReceivedCode.SearchByReceivedCodeDto;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h1>تسليم الإعانات</h1>
+
+                <hr />
+
+                <div class="col-md-4">
+                    <form asp-action="Index">
+                        <input type="hidden" asp-for="AssociationAffiliatedId" value="@_currentUserService.CouncilId" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="input-group mb-3">
+                            <label asp-for="FamilyId" class="control-label m-3">أدخل رمز التسليم</label>
+
+                            <input type="number" asp-for="FamilyId" required class="form-control" placeholder="Code" aria-label="FamilyId" aria-describedby="basic-addon1">
+                            <span asp-validation-for="FamilyId" class="text-danger"></span>
+                            <span class="input-group-text" id="basic-addon1">-</span>
+                            <input type="number" asp-for="TheIntendedBeneficiariesOfTheScheduledAssociationProjectId" required class="form-control" placeholder="code" aria-label="Username" aria-describedby="basic-addon1">
+                            <span asp-validation-for="TheIntendedBeneficiariesOfTheScheduledAssociationProjectId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="بحث" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+
+                @if (queryResult != null)
+                {
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>تصنيف المشروع</th>
+                            <td>@queryResult.CouncilProjectName</td>
+                            <th>اسم المشروع</th>
+                            <td>@queryResult.ProjectName</td>
+                        </tr>
+                        <tr>
+                            <th>من تاريخ</th>
+                            <td>@queryResult.FromDate</td>
+                            <th>إلى تاريخ</th>
+                            <td>@queryResult.ToDate</td>
+                        </tr>
+                        <tr>
+                            <th>اسم الجمعية</th>
+                            <td>@queryResult.AssociationsAffiliatedWithTheCouncilName</td>
+                        </tr>
+                        <tr>
+                            <th>اسم المستفيد</th>
+                            <td>@queryResult.FullName</td>
+                        </tr>
+                        <tr>
+                            <th>حالة التنفيذ</th>
+                            <td>@queryResult.DeliveryStatusName</td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                                <form asp-action="DeliverAid">
+                                    <input type="hidden" asp-for="AssociationAffiliatedId" />
+                                    <input type="hidden" asp-for="FamilyId" class="form-control" />
+                                    <input type="hidden" asp-for="TheIntendedBeneficiariesOfTheScheduledAssociationProjectId" class="form-control" />
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <input type="submit" value="تسليم" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                }
+
+
+                @if (ViewBag.EmptyMessage != null)
+                {
+                    <div class="alert alert-info">@ViewBag.EmptyMessage</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+﻿@model IEnumerable<PersonalDataFormDto>
+@using Batheer.Application.PersonalDataForms.Queries.GetPersonByIdentityNo;
+@inject MediatR.IMediator Mediator;
+
+
+@{
+    ViewData["Title"] = "البحث برقم الهوية";
+
+    var identityNo = ViewBag.IdentityNo;
+
+    var searchResult = new List<PersonalDataFormDto>();
+    if (string.IsNullOrEmpty(identityNo) == false)
+    {
+        var result = await Mediator.Send(new GetPersonByIdentityNoQuery(identityNo));
+        searchResult = result.ToList();
+    }
+
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>@ViewData["Title"]</h4>
+                <hr />
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6">
+                            <label for="IdentityNo" class="control-label">رقم الهوية</label>
+                            <input name="IdentityNo" value="@identityNo" class="form-control" maxlength="10" mixlength="10" required pattern="[1, 2][0-9]{9}$" />
+
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <button class="btn btn-primary">بحث</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>نتيجة البحث</h4>
+                <hr />
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <th>الهوية</th>
+                            <th>الاسم</th>
+                            <th>عائل/تابع؟</th>
+                            <th>اسم الجمعية</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in searchResult)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@item.IdentityNo</td>
+                                <td>@(string.Format($"{item.FirstName} {item.FatherName} {item.GrandFatherName} {item.FamilyName}"))</td>
+                                <td>
+                                    @if (item.IsInFamilyMembers)
+                                    {
+                                        <span>تابع</span>
+                                    }
+                                    else
+                                    {
+                                        <span>عائل</span>
+                                    }
+                                </td>
+                                <td>@item.AssociationsAffiliatedWithTheCouncilName</td>
+
+                                <td>
+                                    <a asp-action="Edit" asp-controller="ManageFamilies"
+                                   asp-route-familyObjectkey="@item.FamilyObjectkey"
+                                       class="btn btn-sm btn-outline-primary"
+                                       target="_blank">
+                                        @if (item.IsInFamilyMembers)
+                                        {
+                                            <span>
+                                                بيانات العائل
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                بيانات المستفيد
+                                            </span>
+
+                                        }
+
+
+                                    </a> |
+                                    <a asp-action="index" asp-controller="ManageFamilyMembers" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary" target="_blank">أفراد العائلة</a>
+                                    @if (item.IsInFamilyMembers)
+                                    {
+                                        <span>
+                                            |
+                                            <a asp-action="Edit"
+                                       asp-controller="ManageFamilyMembers"
+                                       asp-route-familyMemberObjectkey="@item.FamilyMemberObjectkey" class="btn btn-sm btn-outline-primary" target="_blank">بيانات التابع</a>
+                                        </span>
+                                    }
+                                    <a asp-action="VisitingFamilyResult" asp-controller="ManageFamilies" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary" target="_blank">تقرير الباحثين عن العائلة</a> |
+
+                                    @if (item.IsInResponsibleFamilyMembers)
+                                    {
+                                        <a asp-action="Delete"
+                                   asp-controller="ManageFamilies"
+                                           target="_blank"
+                                   asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">حذف</a>
+
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Delete"
+                                   asp-controller="ManageFamilyMembers"
+                                           target="_blank"
+                                   asp-route-memberObjectkey="@item.FamilyMemberObjectkey" class="btn btn-sm btn-outline-primary">حذف</a>
+
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                @if (string.IsNullOrEmpty(identityNo) == false && searchResult.Count == 0)
+                {
+                    <div class="aleat alert-warning">
+                        لا يوجد بيانات برقم الهوية
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

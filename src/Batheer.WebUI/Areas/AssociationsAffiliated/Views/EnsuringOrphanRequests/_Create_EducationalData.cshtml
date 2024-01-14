@@ -1,0 +1,16 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.EnsuringOrphanRequest
+
+<h4>البيانات التعليمية</h4>
+<hr />
+<div class="row">
+    <div class="form-group col-md-6">
+        <label asp-for="EducationalDataId" class="control-label">المستوى الدراسي</label>
+        <select class="form-control"></select>
+        <span asp-validation-for="EducationalDataId" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

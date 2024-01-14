@@ -1,0 +1,119 @@
+﻿@model Batheer.Application.FamilyMembers.Queries.GetFamilyMemberByObjectkey.FamilyMemberDto
+
+
+@{
+    ViewData["Title"] = "تفاصيل";
+    bool _readonly = true;
+
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <h4>تفاصيل فرد بعائلة</h4>
+            </div>
+            <div class="card-body">
+                <h4>البيانات الشخصية</h4>
+                <hr />
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="FirstName" class="control-label">الاسم الأول</label>
+                        <input asp-for="FirstName" class="form-control" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FatherName" class="control-label">اسم الأب</label>
+                        <input asp-for="FatherName" class="form-control" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="GrandFatherName" class="control-label">اسم الجد</label>
+                        <input asp-for="GrandFatherName" class="form-control" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FamilyName" class="control-label">اسم العائلة</label>
+                        <input asp-for="FamilyName" class="form-control" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="IdentityNo" class="control-label">رقم الهوية</label>
+                        @*<input name="IdentityNo" class="form-control" readonly maxlength="10" minlength="10" value="@Model.IdentityNo" />*@
+                        <input asp-for="IdentityNo" class="form-control" maxlength="10" minlength="10" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="DateOfBirth" class="control-label">تاريخ الميلاد</label>
+                        <input asp-for="DateOfBirth" class="form-control" type="date" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="PlaceOfBirth" class="control-label">مكان الميلاد</label>
+                        <input asp-for="PlaceOfBirth" class="form-control" asp-is-readonly="_readonly" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="GenderName" class="control-label">الجنس</label>
+                        <input asp-for="GenderName" class="form-control" asp-is-readonly="_readonly" />
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="NationalityId" class="control-label">الجنسية</label>
+                        <input asp-for="NationalityName" class="form-control" asp-is-readonly="_readonly" />
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">صورة الهوية</label>
+                        <img src="~/UploadedFiles/ShowByObjectKey?objectKey=@Model.IdentityFileObjectKey"
+                             class="img img-thumbnail" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">صورة شخصية</label>
+                        <img src="~/UploadedFiles/ShowByObjectKey?objectKey=@Model.PersonalPhotoFileObjectKey"
+                             class="img img-thumbnail" />
+
+                    </div>
+                </div>
+
+                <br />
+
+                <h4>البيانات التعليمية</h4>
+                <hr />
+                <div class="form-group col-md-6">
+                    <label asp-for="EducationalLevelId" class="control-label">المستوى الدراسي</label>
+                    <input asp-for="EducationalLevelName" class="form-control" asp-is-readonly="_readonly" />
+
+                </div>
+            </div>
+
+
+
+            <div class="card">
+                <div class="card-header">
+                    <h4>بيانات الحالة الصحية</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="HealthStatusId" class="control-label">الحالة الصحية</label>
+                            <input asp-for="HealthStatusName" class="form-control" asp-is-readonly="_readonly" />
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="HealthStatus_Others" class="control-label">أخرى</label>
+                            <input asp-for="HealthStatus_Others" class="form-control" asp-is-readonly="_readonly" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="HealthStatus_Description" class="control-label">نوع المرض أو الإعاقة إن وجد</label>
+                            <input asp-for="HealthStatus_Description" class="form-control" asp-is-readonly="_readonly" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index" asp-route-familyObjectkey="@Model.FamilyObjectkey">عودة للقائمة</a>
+            </div>
+        </div>
+    </div>
+</div>

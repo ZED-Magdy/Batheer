@@ -1,0 +1,211 @@
+﻿@model Batheer.Application.SupportingFamilyRequests.Commands.CreateSupportingFamilyRequest.CreateSupportingFamilyRequestCommand
+
+
+@{
+    ViewData["Title"] = "Create";
+    bool _readonly = false;
+
+    //var FamilyId = ViewBag.FamilyId ?? Model.FamilyId;
+    var FamilyObjectkey = ViewBag.FamilyObjectkey ?? Model.FamilyObjectkey;
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h4>إنشاء طلب تمكين أسرة</h4>
+
+            </div>
+            <div class="card-body">
+
+                <form asp-action="Create" class="needs-validation" novalidate>
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" name="FamilyObjectkey" value="@FamilyObjectkey" />
+
+
+                    <h4>البنوك</h4>
+                    <hr />
+                    @*<div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="BankDefaultData.IsThereABankDefault" /> @Html.DisplayNameFor(model => model.IsThereABankDefault)
+                            </label>
+                        </div>*@
+
+
+                    <div class="custom-control col-md-6 custom-checkbox">
+                        <input asp-for="BankDefaultData.IsThereABankDefault" type="checkbox" class="custom-control-input" name="BankDefaultData.IsThereABankDefault">
+                        @*<input asp-for="BankDefaultData.IsThereABankDefault" type="hidden" class="custom-control-input" name="BankDefaultData.IsThereABankDefault">*@
+                        <label class="custom-control-label" asp-for="BankDefaultData.IsThereABankDefault">
+
+                            هل يوجد تعثر لأحد البنوك؟
+                        </label>
+                    </div>
+
+
+
+
+                    <h4>بيانات التمويل</h4>
+                    <hr />
+                    <div class="form-group col-md-6">
+                        <label asp-for="FinanceData.FinanceTypeId" class="control-label">ما نوع التمويل الذي ترغب به؟</label>
+                        <select asp-for="FinanceData.FinanceTypeId" class="form-control"
+                                required
+                                asp-items="@(new SelectList(ViewBag.FinanceTypeId, "Id", "Name"))">
+                            <option selected disabled value="">--الرجاء الاختيار--</option>
+                        </select>
+                        <span asp-validation-for="FinanceData.FinanceTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="FinanceData.ProducedFamilyProductId" class="control-label">
+                            إذا الاختيار أسر منتجة اختر من القائمة التالية:
+                        </label>
+                        <select asp-for="FinanceData.ProducedFamilyProductId" class="form-control"
+                                required
+                                asp-items="@(new SelectList(ViewBag.ProducedFamilyProductId, "Id", "Name"))">
+                            <option selected disabled value="">--الرجاء الاختيار--</option>
+                        </select>
+                        <span asp-validation-for="FinanceData.ProducedFamilyProductId" class="text-danger"></span>
+                    </div>
+
+
+
+
+
+                    <h4>بيانات القروض</h4>
+                    <hr />
+
+                    <div class="custom-control col-md-6 custom-checkbox">
+                        <input asp-for="LoanData.DoYouHaveLoansOrOtherObligations" type="checkbox" class="custom-control-input">
+                        <label class="custom-control-label" asp-for="LoanData.DoYouHaveLoansOrOtherObligations">
+
+                            هل لديك قروض أو التزامات أخرى؟
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="LoanData.Others" class="control-label">أخرى</label>
+                        <input asp-for="LoanData.Others" name="LoanData.Others" class="form-control" />
+                        <span asp-validation-for="LoanData.Others" class="text-danger"></span>
+                    </div>
+
+                    @*<div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="LoanData.AreYouABeneficiaryOfSocialSecurity" /> @Html.DisplayNameFor(model => model.AreYouABeneficiaryOfSocialSecurity)
+                            </label>
+                        </div>*@
+                    <div class="form-group col-md-6">
+                        <label asp-for="LoanData.LoanTypeId" class="control-label">ما نوع القرض</label>
+                        <select asp-for="LoanData.LoanTypeId" class="form-control"
+                                required
+                                asp-items="@(new SelectList(ViewBag.LoanTypeId, "Id", "Name"))">
+                            <option selected disabled value="">--الرجاء الاختيار--</option>
+                        </select>
+                        <span asp-validation-for="LoanData.LoanTypeId" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="LoanData.Description" class="control-label">تفصيل القرض</label>
+                        <input asp-for="LoanData.Description" class="form-control" />
+                        <span asp-validation-for="LoanData.Description" class="text-danger"></span>
+                    </div>
+
+
+
+
+                    <h4>بيانات المشروع</h4>
+                    <hr />
+                    <div class="form-group col-md-6">
+                        <label asp-for="ProjectData.EstimatedProjectCostId" class="control-label">التكلفة التقديرية للمشروع</label>
+                        <select asp-for="ProjectData.EstimatedProjectCostId" class="form-control"
+                                required
+                                asp-items="@(new SelectList(ViewBag.EstimatedProjectCostId, "Id", "Name"))">
+                            <option selected disabled value="">--الرجاء الاختيار--</option>
+                        </select>
+                        <span asp-validation-for="ProjectData.EstimatedProjectCostId" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="ProjectData.Others" class="control-label">أخرى</label>
+                        <input asp-for="ProjectData.Others" class="form-control" />
+                        <span asp-validation-for="ProjectData.Others" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label asp-for="ProjectData.AboutTheProject" class="control-label">نبذة عن المشروع</label>
+                        <input asp-for="ProjectData.AboutTheProject" class="form-control" required />
+                        <span asp-validation-for="ProjectData.AboutTheProject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label asp-for="ProjectData.WhatAreTheObstaclesFacingTheProject" class="control-label">ما العوائق التي تقابل المشروع؟</label>
+                        <textarea asp-for="ProjectData.WhatAreTheObstaclesFacingTheProject" required class="form-control"></textarea>
+                        <span asp-validation-for="ProjectData.WhatAreTheObstaclesFacingTheProject" class="text-danger"></span>
+                    </div>
+
+
+
+                    <h4>العمل على مشروع</h4>
+                    <hr />
+
+                    <div class="custom-control col-md-6 custom-checkbox">
+                        <input asp-for="WorkOnAProjectData.AreYouFreeAndReadyToWorkOnAproject" type="checkbox" class="custom-control-input">
+                        <label class="custom-control-label" asp-for="WorkOnAProjectData.AreYouFreeAndReadyToWorkOnAproject">
+                            هل أنت متفرغ وعلى استعداد للعمل على مشروع؟
+                        </label>
+                    </div>
+
+
+                    @*<div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="WorkOnAProjectData.AreYouFreeAndReadyToWorkOnAproject" /> @Html.DisplayNameFor(model => model.AreYouFreeAndReadyToWorkOnAproject)
+                            </label>
+                        </div>*@
+
+
+
+
+
+                    <div class="form-group">
+                        <input type="submit" value="إنشاء الطلب" class="btn btn-primary" />
+                    </div>
+                </form>
+
+                <div>
+                    <a asp-action="Index" asp-controller="ManageFamilies">عودة للقائمة</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+    </script>
+}

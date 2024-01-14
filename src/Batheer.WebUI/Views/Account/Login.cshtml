@@ -1,0 +1,46 @@
+﻿@model Batheer.Application.Modules.UserAccess.Login.LoginRequest
+
+@{
+    ViewData["Title"] = "تسجيل دخول";
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <h1>@ViewData["Title"]</h1>
+        <form id="account" method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <label asp-for="UserName">اسم المستخدم</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                <br />
+            </div>
+            <div class="row">
+                <label asp-for="Password">كلمة المرور</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <br />
+
+            </div>
+
+            <div class="row">
+                <div class="text-center">
+
+
+                    <button type="submit" class="btn btn-primary" style="width:50%">تسجيل دخول</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    @*<div class="col-md-6 col-md-offset-2">
+        </div>*@
+</div>
+
+@*@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }*@

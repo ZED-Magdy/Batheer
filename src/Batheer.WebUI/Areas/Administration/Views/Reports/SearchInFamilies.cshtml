@@ -1,0 +1,272 @@
+﻿@model Batheer.Application.Reports.Queries.SearchInFamilies.SearchInFamiliesQuery
+@using Batheer.Application.Modules.Lookups.Queries.GetAccommodationTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetEducationalLevels;
+@using Batheer.Application.Modules.Lookups.Queries.GetEstimatedProjectCosts;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyCategories;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeeds;
+@using Batheer.Application.Modules.Lookups.Queries.GetFinanceTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetHealthStatuses;
+@using Batheer.Application.Modules.Lookups.Queries.GetLoanTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetMaritalStatuses;
+@using Batheer.Application.Modules.Lookups.Queries.GetMonthlyIncomes;
+@using Batheer.Application.Modules.Lookups.Queries.GetNationalities;
+@using Batheer.Application.Modules.Lookups.Queries.GetOccupations;
+@using Batheer.Application.Modules.Lookups.Queries.GetProducedFamilyProducts;
+@using Batheer.Application.Modules.Lookups.Queries.GetGenders;
+@using Batheer.Application.AssociationsAffiliatedWithTheCouncils.Queries.GetAssociationsAffiliatedWithTheCouncils;
+@using Batheer.Application.Reports.Queries.SearchInFamilyRegistrationRequests;
+
+
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator Mediator;
+
+
+@{
+    ViewBag.AccommodationTypeId = await Mediator.Send(new GetAccommodationTypesQuery());
+    ViewBag.EducationalLevelId = await Mediator.Send(new GetEducationalLevelsQuery());
+    ViewBag.EstimatedProjectCostId = await Mediator.Send(new GetEstimatedProjectCostsQuery());
+    ViewBag.FinanceTypeId = await Mediator.Send(new GetFinanceTypesQuery());
+    ViewBag.HealthStatusId = await Mediator.Send(new GetHealthStatusesQuery());
+    ViewBag.LoanTypeId = await Mediator.Send(new GetLoanTypesQuery());
+    ViewBag.MaritalStatusId = await Mediator.Send(new GetMaritalStatusesQuery());
+    ViewBag.MonthlyIncomeId = await Mediator.Send(new GetMonthlyIncomesQuery());
+    ViewBag.NationalityId = await Mediator.Send(new GetNationalitiesQuery());
+    ViewBag.OccupationId = await Mediator.Send(new GetOccupationsQuery());
+    ViewBag.ProducedFamilyProductId = await Mediator.Send(new GetProducedFamilyProductsQuery());
+    ViewBag.FamilyNeeds = await Mediator.Send(new GetFamilyNeedsQuery());
+    ViewBag.FamilyCategoryId = await Mediator.Send(new GetFamilyCategoriesQuery());
+    ViewBag.GenderId = await Mediator.Send(new GetGendersQuery());
+
+    ViewBag.FamilyNeedId = await Mediator.Send(new GetFamilyNeedsQuery());
+    ViewBag.FamilyCategoryId = await Mediator.Send(new GetFamilyCategoriesQuery());
+
+    ViewBag.AssociationsAffiliatedWithTheCouncilId = await Mediator.Send(new GetAssociationsAffiliatedWithTheCouncilsQuery());
+}
+
+@{
+    ViewData["Title"] = "الاستعلامات والتقارير" + @" / " + "البحث عن المستفيدين";
+
+
+}
+
+@{
+    var QueryResult = ViewBag.QueryResult as IEnumerable<Batheer.Application.Reports.Queries.SearchInFamilies.SearchInFamiliesDto>;
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h1>البحث عن المستفيدين</h1>
+                <h3>محددات البحث</h3>
+                <form method="post">
+                    <div class="row">
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FullName" class="control-label">الاسم</label>
+                            <input asp-for="FullName" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="IdentityNo" class="control-label">رقم الهوية</label>
+                            <input asp-for="IdentityNo" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="GenderId" class="control-label">الجنس</label>
+                            <select asp-for="GenderId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.GenderId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="NationalityId" class="control-label">الجنسية</label>
+                            <select asp-for="NationalityId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.NationalityId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="AccommodationTypeId" class="control-label">نوع السكن</label>
+                            <select asp-for="AccommodationTypeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.AccommodationTypeId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="Email" class="control-label">البريد الالكتروني</label>
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Mobile" class="control-label">رقم الجوال</label>
+                            <input asp-for="Mobile" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="PhoneNumber" class="control-label">رقم الهاتف</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="MaritalStatusId" class="control-label">الحالة الاجتماعية لعائل الأسرة</label>
+                            <select asp-for="MaritalStatusId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.MaritalStatusId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="EducationalLevelId" class="control-label">المستوى الدراسي</label>
+                            <select asp-for="EducationalLevelId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.EducationalLevelId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="HealthStatusId" class="control-label">الحالة الصحية</label>
+                            <select asp-for="HealthStatusId" class="form-control" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.HealthStatusId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="OccupationId" class="control-label">المهنة</label>
+                            <select class="form-control" asp-for="OccupationId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.OccupationId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="MonthlyIncomeId" class="control-label">الدخل الشهري</label>
+                            <select asp-for="MonthlyIncomeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.MonthlyIncomeId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="HasSupportingFamilyRequest" class="control-label">تمكين الأسر؟</label>
+                            <select asp-for="HasSupportingFamilyRequest" class="form-control">
+                                <option>--الكل--</option>
+                                <option value="true">نعم</option>
+                                <option value="false">لا</option>
+
+                            </select>
+                        </div>
+
+
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="AssociationsAffiliatedWithTheCouncilId" class="control-label">الجمعية</label>
+                            <select asp-for="AssociationsAffiliatedWithTheCouncilId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.AssociationsAffiliatedWithTheCouncilId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FamilyNeedId" class="control-label">نوع الدعم</label>
+                            <select asp-for="FamilyNeedId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.FamilyNeedId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FamilyCategoryId" class="control-label">تصنيف الأسرة</label>
+                            <select asp-for="FamilyCategoryId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.FamilyCategoryId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <input type="submit" value="بحث" class="btn btn-primary" />
+                            <input type="submit" value="تصدير إكسل" class="btn btn-primary" asp-action="SearchInFamiliesExport" />
+                        </div>
+                    </div>
+                </form>
+
+
+                @if (QueryResult != null)
+                {
+
+                    <h3>نتيجة البحث</h3>
+                    <div class="row">
+                        @foreach (var item in QueryResult)
+                        {
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    @* @{
+                            string url = item.IsFamilyMember ? "" : "";
+                            }
+                            <a href="@url" target="_blank">
+                            </a>*@
+                                    <img src="~/UploadedFiles/ShowByObjectKey?objectKey=@item.PersonalPhotoFileObjectKey"
+                                         class="img img-thumbnail" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+
+                                            @if (item.IsFamilyMember)
+                                            {
+                                                <a asp-action="Details"
+                                       asp-controller="ManageFamilyMembers"
+                                       asp-route-memberObjectkey="@item.ObjectKey"
+                                                   target="_blank">
+                                                    @item.FullName
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-action="Details"
+                                       asp-controller="ManageFamilies"
+                                       asp-route-familyObjectkey="@item.ObjectKey"
+                                                   target="_blank">
+                                                    @item.FullName
+                                                </a>
+                                            }
+
+
+
+
+                                        </h5>
+                                        <h6>@item.FamilyMemberTypeName</h6>
+                                        <p>
+                                            @item.GenderName | @item.NationalityName | @item.IdentityNo
+                                        </p>
+                                        <p>
+                                            @item.Mobile | @item.Email | @item.PhoneNumber
+                                        </p>
+                                        <p>
+                                            @item.AccommodationTypeName | @item.MonthlyIncomeName | @item.MaritalStatusName | @item.OccupationName
+                                        </p>
+                                        <p>@item.HasSupportingFamilyRequest</p>
+                                        <p>
+                                            @item.Mobile | @item.Email | @item.PhoneNumber
+                                        </p>
+                                        @*<p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>*@
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

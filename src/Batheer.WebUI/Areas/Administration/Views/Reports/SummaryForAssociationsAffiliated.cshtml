@@ -1,0 +1,88 @@
+﻿@model Batheer.Application.Reports.Queries.GetSummaryForAssociationsAffiliatedId.GetSummaryForAssociationsAffiliatedIdQuery
+@using Batheer.Application.AssociationsAffiliatedWithTheCouncils.Queries.GetAssociationsAffiliatedWithTheCouncils;
+
+
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator Mediator;
+
+
+@{
+
+    ViewBag.AssociationsAffiliatedWithTheCouncilId = await Mediator.Send(new GetAssociationsAffiliatedWithTheCouncilsQuery());
+}
+
+@{
+    ViewData["Title"] = "الاستعلامات والتقارير" + @" / " + "ملخص الجمعيات";
+
+
+}
+
+@{
+    var QueryResult = ViewBag.QueryResult as IEnumerable<Batheer.Application.Reports.Queries.GetSummaryForAssociationsAffiliatedId.SummaryForAssociationsAffiliatedIdDto>;
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h1>ملخص الجمعيات</h1>
+                <h3>محددات البحث</h3>
+                <form method="post">
+                    <div class="row">
+
+
+
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="AssociationsAffiliatedId" class="control-label">الجمعية</label>
+                            <select asp-for="AssociationsAffiliatedId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.AssociationsAffiliatedWithTheCouncilId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+
+
+                        <div class="form-group col-md-12">
+                            <input type="submit" value="بحث" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+
+
+                @if (QueryResult != null)
+                {
+
+                    <h3>نتيجة البحث</h3>
+                    <div class="row">
+                        @foreach (var group in QueryResult.GroupBy(g => g.Group_Name))
+                        {
+
+                            <div class="card col-sm-4 m-2">
+                                <div class="card-header">
+                                    @group.Key
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        @foreach (var item in QueryResult.Where(w => w.Group_Name == group.Key))
+                                        {
+                                            <li class="list-group-item">
+                                                @item.Item_Name | @item.Value
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

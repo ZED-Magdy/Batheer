@@ -1,0 +1,23 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.FinanceData
+
+<h4>بيانات التمويل</h4>
+<hr />
+<div class="row">
+    <div class="form-group col-md-6">
+        <label asp-for="FinanceTypeId" class="control-label">ما نوع التمويل الذي ترغب به؟</label>
+        <select asp-for="FinanceTypeId" class="form-control" asp-items="ViewBag.FinanceTypeId"></select>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="ProducedFamilyProductId" class="control-label">
+            إذا الاختيار أسر منتجة اختر من القائمة التالية:
+        </label>
+        <select asp-for="ProducedFamilyProductId" class="form-control" asp-items="ViewBag.ProducedFamilyProductId"></select>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

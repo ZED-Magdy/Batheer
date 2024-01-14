@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Batheer.Application</AssemblyName>
+    <RootNamespace>Batheer.Application</RootNamespace>
+    <Configurations>Debug;Release;Production</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Requests\BaseRequests\Commands\CreateRequest\**" />
+    <Compile Remove="Summaries\Queries\GetLastFamiliesReceived - Copy\**" />
+    <EmbeddedResource Remove="Requests\BaseRequests\Commands\CreateRequest\**" />
+    <EmbeddedResource Remove="Summaries\Queries\GetLastFamiliesReceived - Copy\**" />
+    <None Remove="Requests\BaseRequests\Commands\CreateRequest\**" />
+    <None Remove="Summaries\Queries\GetLastFamiliesReceived - Copy\**" />
+  </ItemGroup>
+
+
+
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="FluentValidation" Version="10.0.4" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.0.4" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Requests\BaseRequests\Commands\" />
+	  <Folder Include="ResponsibleFamilyMembers\Commands\" />
+	  <Folder Include="FamilyRegistrationRequests\Commands\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Batheer.Domain\Batheer.Domain.csproj" />
+	</ItemGroup>
+
+
+
+
+</Project>

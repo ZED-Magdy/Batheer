@@ -1,0 +1,39 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeeds
+
+@{
+    var FamilyNeeds = ViewBag.FamilyNeeds as IEnumerable<FamilyNeed>;
+}
+
+<h4>بيانات نوع الدعم</h4>
+<hr />
+<div class="row">
+
+
+    <div class="form-group col-md-12">
+        <label class="control-label ">نوع الدعم</label>
+        <br />
+        @{
+            int index = 0;
+        }
+        @foreach (var item in FamilyNeeds)
+        {
+            <div class="form-check form-check-inline col-3">
+                @Html.Hidden($"FamilyNeedData[{index}].FamilyNeedId", item.Id)
+
+                @Html.CheckBox($"FamilyNeedData[{index}].Checked", new { @class = "form-check-input" })
+                <label class="form-check-label"> @item.Name</label>
+            </div>
+
+
+            index++;
+        }
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

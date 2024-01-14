@@ -1,0 +1,428 @@
+﻿@using Microsoft.Extensions.DependencyInjection;
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService;
+@{
+    string areaName = "";
+    if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.AdminRole.ToString()))
+    {
+        areaName = "Administration";
+    }
+    else if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.CouncilRole.ToString()))
+    {
+        areaName = "AssociationsAffiliated";
+    }
+    else if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.Researcher.ToString()))
+    {
+        areaName = "Researcher";
+    }
+}
+
+<!DOCTYPE html>
+
+<!-- Breadcrumb-->
+<html lang="ar" dir="rtl">
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>@ViewData["Title"] - @ViewBag.SystemName</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="/themes/coreui/assets/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/themes/coreui/assets/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/themes/coreui/assets/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/themes/coreui/assets/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/themes/coreui/assets/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/themes/coreui/assets/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/themes/coreui/assets/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/themes/coreui/assets/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/themes/coreui/assets/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/themes/coreui/assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/themes/coreui/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/themes/coreui/assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/themes/coreui/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/themes/coreui/assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/themes/coreui/assets/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="/themes/coreui/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="/themes/coreui/css/style.css" rel="stylesheet">
+    <!-- We use those styles to show code examples, you should remove them in your application.-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
+    <link href="/themes/coreui/css/examples.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics-->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+    <link href="/themes/coreui/css/coreui-chartjs.css" rel="stylesheet">
+    <link href="~/themes/coreui/css/StyleSheet.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Tajawal:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <link href="/themes/coreui/css/coreui-chartjs.css" rel="stylesheet">
+
+    <link href="/themes/coreui/css/StyleSheet.css" rel="stylesheet">
+    <link href="~/hijri-date-picker-bootstrap/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+
+    @await RenderSectionAsync("HeaderScripts", required: false)
+</head>
+<body>
+    <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+        <div class="sidebar-brand d-none d-md-flex">
+            <h2>
+                @Batheer.WebUI.Common.UIHelper.SystemBrandName
+            </h2>
+        </div>
+        <div class="sidebar-brand d-none d-md-flex">
+            <img src="~/themes/scaffold/assets/img/logo.svg" width="50px" class="img-fluid" />
+        </div>
+        <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
+            <li class="nav-item">
+                <a class="nav-link" href="/@areaName/">
+                    <svg class="nav-icon">
+                        <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-speedometer"></use>
+                    </svg> لوحة التحكم<span class="badge badge-sm bg-info ms-auto">NEW</span>
+                </a>
+            </li>
+            @if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.AdminRole.ToString()))
+            {
+
+                <li class="nav-group">
+                    <a class="nav-link nav-group-toggle" href="#">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-puzzle"></use>
+                        </svg> الجمعيات
+                    </a>
+                    <ul class="nav-group-items">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="AssociationsAffiliatedWithTheCouncils" asp-action="Index">
+                                <svg class="nav-icon">
+                                    <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-notes"></use>
+                                </svg>    بيانات الجمعيات
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="AssociationsAffiliatedWithTheCouncilUsers" asp-action="Index">
+                                <svg class="nav-icon">
+                                    <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-drop"></use>
+                                </svg>   حسابات المسؤولين @*(المتطوعين) لكل جمعية على النظام*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="AssociationsAffiliatedWithTheCouncilInfos" asp-action="index">
+                                <svg class="nav-icon">
+                                    <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                                </svg>  البيانات التفصيلية
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+                <li class="nav-group">
+                    <a class="nav-link nav-group-toggle" href="#">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-puzzle"></use>
+                        </svg> الباحثين
+                    </a>
+                    <ul class="nav-group-items">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="ResearcherManagments" asp-action="Index">
+                                <svg class="nav-icon">
+                                    <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-notes"></use>
+                                </svg>    بيانات الباحثين
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="ResearcherManagments" asp-action="VisitingResults">
+                                <svg class="nav-icon">
+                                    <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-notes"></use>
+                                </svg>    تقرير زيارة الباحثين
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-group">
+                    <a class="nav-link nav-group-toggle" href="#">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-puzzle"></use>
+                        </svg> الاستعلامات والتقارير
+                    </a>
+                    <ul class="nav-group-items">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="Reports" asp-action="SearchInFamilies">
+                                <span class="c-sidebar-nav-icon"></span> عن المستفيدين
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="Reports" asp-action="SearchInFamilyRegistrationRequests">
+                                <span class="c-sidebar-nav-icon"></span> عن عوائل دعم الأسر
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="Reports" asp-action="SearchInSupportingFamilyRequests">
+                                <span class="c-sidebar-nav-icon"></span> عن عوائل تمكين الأسر
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="Reports" asp-action="SummaryForAssociationsAffiliated">
+                                <span class="c-sidebar-nav-icon"></span> ملخص الجمعيات
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Administration" asp-controller="AssociationAffiliatedProjects" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-drop"></use>
+                        </svg>   مشاريع الجمعيات الأهلية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Administration" asp-controller="ManageFamilyNeeds" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-drop"></use>
+                        </svg>  إدارة نوع الدعم
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Administration" asp-controller="ManageExcludeIdentityNumbers" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-trash"></use>
+                        </svg>  إدارة الهويات المستبعدة
+                    </a>
+                </li>
+                <li class="nav-group">
+                    <a class="nav-link nav-group-toggle" href="#">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-puzzle"></use>
+                        </svg> نشاط المستخدمين
+                    </a>
+                    <ul class="nav-group-items">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Administration" asp-controller="UsersActivies" asp-action="Logins">
+                                <svg class="nav-icon">
+                                    <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-notes"></use>
+                                </svg>    تسجيل الدخول والبيانات
+                            </a>
+                        </li>
+                       
+
+
+                    </ul>
+                </li>
+            }
+            else if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.CouncilRole.ToString()))
+            {
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="ManageFamilies" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-drop"></use>
+                        </svg>  إدارة العائلات
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="AssociationAffiliatedProjects" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                        </svg> إدارة المشاريع
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="TargetedSchedulingForProjectImplementations" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                        </svg> الجدولة الزمنية المستهدفة
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="DeliveryAids" asp-action="index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                        </svg>  تسليم الإعانات
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="AssociationsAffiliatedWithTheCouncilInfos" asp-action="index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                        </svg>  بيانات الجمعية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="ResearcherFeedBacks" asp-action="VisitingResults">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                        </svg>  تقرير زيارة الباحثين
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="AssociationsAffiliated" asp-controller="ExcludeIdentityNumbers" asp-action="index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-pencil"></use>
+                        </svg>  أرقام الهويات المستبعدة
+                    </a>
+                </li>
+            }
+            else if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.Researcher.ToString()))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Researcher" asp-controller="Home" asp-action="SearchByIdentityNo">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-notes"></use>
+                        </svg>    البحث عن مستفيد
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Researcher" asp-controller="VisitingResults" asp-action="Index">
+                        <svg class="nav-icon">
+                            <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-notes"></use>
+                        </svg>    تقاريري
+                    </a>
+                </li>
+            }
+        </ul>
+        <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+    </div>
+    <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+
+        <header class="header header-sticky mb-4">
+            <div class="container-fluid">
+                <button class="header-toggler px-md-0 me-md-3" type="button">
+                    <svg class="icon icon-lg">
+                        <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-menu"></use>
+                    </svg>
+                </button>
+
+
+                <a class="header-brand d-md-none" href="#">
+                    <svg width="118" height="46" alt="CoreUI Logo">
+                        <use xlink:href="/themes/coreui/assets/brand/coreui.svg#full"></use>
+                    </svg>
+                </a>
+
+                <ul class="header-nav d-none d-md-flex">
+                    <li class="nav-item"><a class="nav-link" href="/">الرئيسية</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/@areaName/">لوحة التحكم</a></li>
+                </ul>
+
+                <ul class="header-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-bell"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-list-rich"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <svg class="icon icon-lg">
+                                <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-envelope-open"></use>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="header-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+
+                            <cache expires-after="@TimeSpan.FromSeconds(360)" enabled="false">
+                                <div class="avatar avatar-md">
+                                    <img class="avatar-img"
+                                         src="~/UploadedFiles/ShowByObjectKey?objectKey=@_currentUserService.User_Photo_ObjectKey"
+                                         alt="">
+                                </div>
+                            </cache>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end pt-0">
+                            <div class="dropdown-header bg-light py-2">
+                                <div class="fw-semibold">حسابي</div>
+                            </div>
+
+
+                            <a class="dropdown-item">
+                                <svg class="icon mr-2">
+                                    <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-user"></use>
+                                </svg> الملف الشخصي
+                            </a>
+
+                            <a class="dropdown-item" asp-controller="Account" asp-action="Logout" asp-area="">
+                                <svg class="icon mr-2">
+                                    <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-account-logout"></use>
+                                </svg> تسجيل خروج
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="header-divider"></div>
+            <div class="container-fluid">
+
+                <ol class="breadcrumb border-0 m-0">
+                    <li class="breadcrumb-item">@_currentUserService.CouncilName</li>
+                    <li class="breadcrumb-item">@User.Identity.Name</li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+
+                </ol>
+            </div>
+
+        </header>
+
+        <div class="body flex-grow-1 px-3">
+            <div class="container-lg">
+                @RenderBody()
+            </div>
+        </div>
+        <footer class="footer">
+            <div>
+            </div>
+        </footer>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="/themes/coreui/vendors/coreui.bundle.min.js"></script>
+    <script src="/themes/coreui/vendors/simplebar.min.js"></script>
+    <!-- We use those scripts to show code examples, you should remove them in your application.-->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/normalize-whitespace/prism-normalize-whitespace.js"></script>
+    <!-- Plugins and scripts required by this view-->
+    <script src="/themes/coreui/js/chart.min.js"></script>
+    <script src="/themes/coreui/js/coreui-chartjs.js"></script>
+    <script src="/themes/coreui/vendors/coreui-utils.js"></script>
+    <script src="/themes/coreui/js/main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="~/hijri-date-picker-bootstrap/js/bootstrap-hijri-datepicker.js"></script>
+    <script>
+    </script>
+
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

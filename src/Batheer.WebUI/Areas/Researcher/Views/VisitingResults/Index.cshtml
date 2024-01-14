@@ -1,0 +1,77 @@
+﻿@using VisitingFamilyResultsQuery = Batheer.Application.VisitingFamilyResults.Queries.GetVisitingFamilyResultsByCreatedBy;
+@using VisitingFamilyMemberResultsQuery = Batheer.Application.VisitingFamilyMemberResults.Queries.GetVisitingFamilyMemberResultsByCreatedBy;
+@inject MediatR.IMediator Mediator;
+
+@{
+    ViewData["Title"] = "التقارير الخاصة بي";
+
+    var VisitingFamilyItems = await Mediator.Send(new VisitingFamilyResultsQuery.GetVisitingFamilyResultsByCreatedByQuery());
+    var VisitingFamilyMemberItems = await Mediator.Send(new VisitingFamilyMemberResultsQuery.GetVisitingFamilyMemberResultsByCreatedByQuery());
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h1>@ViewData["Title"]</h1>
+
+
+                <div class="row">
+
+                    <table class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الاسم كامل</th>
+                                <th>رقم الهوية</th>
+                                <th>هل قمت بزيارة الأسرة/التابع؟</th>
+                                <th>ملاحظة عامة</th>
+                                <th>هل الأسرة/التابع مستحق للدعم</th>
+                                <td>السبب عند الإجابة بـ لا</td>
+                                <td>تمت بتاريخ</td>
+                                <td>بواسطة</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in VisitingFamilyItems)
+                            {
+                                <tr>
+                                    <td>#</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.IdentityNo</td>
+                                    <td>@item.DidYouVisitTheFamily</td>
+                                    <td>@item.GeneralNots</td>
+                                    <td>@item.IsDeserveSupport</td>
+                                    <td>@item.WhyNoDeserveSupport</td>
+                                    <td>@item.Created</td>
+                                    <td>@item.CreatedBy</td>
+                                </tr>
+                            }
+
+                            @foreach (var item in VisitingFamilyMemberItems)
+                            {
+                                <tr>
+                                    <td>#</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.IdentityNo</td>
+                                    <td>@item.DidYouVisitTheFamilyMember</td>
+                                    <td>@item.GeneralNots</td>
+                                    <td>@item.IsDeserveSupport</td>
+                                    <td>@item.WhyNoDeserveSupport</td>
+                                    <td>@item.Created</td>
+                                    <td>@item.CreatedBy</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+</div>

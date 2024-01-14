@@ -1,0 +1,177 @@
+﻿@using Batheer.Application.AssociationsAffiliatedWithTheCouncils.Queries.GetAssociationsAffiliatedWithTheCouncils;
+@using Batheer.Application.Users.Queries.GetUsersByRole;
+@using VisitingFamilyResultsQuery = Batheer.Application.VisitingFamilyResults.Queries.GetVisitingFamilyResults;
+@using VisitingFamilyMemberResultsQuery = Batheer.Application.VisitingFamilyMemberResults.Queries.GetVisitingFamilyMemberResults;
+@using static Batheer.Domain.AuthenticationUsers.User;
+@inject MediatR.IMediator Mediator;
+
+@{
+    ViewData["Title"] = "تقرير زيارة الباحثين";
+
+
+    var AssociationsAffiliatedWithTheCouncilId = ViewBag.AssociationsAffiliatedWithTheCouncilId;
+    var UserName = ViewBag.UserName;
+    var IdentityNo = ViewBag.IdentityNo;
+
+
+
+    var VisitingFamilyItems = await Mediator.Send(new VisitingFamilyResultsQuery.GetVisitingFamilyResultsQuery()
+            {
+                UserName = UserName,
+                IdentityNo = IdentityNo,
+                AssociationsAffiliatedWithTheCouncilId = AssociationsAffiliatedWithTheCouncilId
+            });
+    var VisitingFamilyMemberItems = await Mediator.Send(new VisitingFamilyMemberResultsQuery.GetVisitingFamilyMemberResultsQuery()
+            {
+                UserName = UserName,
+                IdentityNo = IdentityNo,
+                AssociationsAffiliatedWithTheCouncilId = AssociationsAffiliatedWithTheCouncilId
+            });
+
+    var AssociationsAffiliatedWithTheCouncil = await Mediator.Send(new GetAssociationsAffiliatedWithTheCouncilsQuery());
+
+    var Users = await Mediator.Send(new GetUsersByRoleQuery(UserRoles.Researcher));
+
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h1>@ViewData["Title"]</h1>
+
+                <div class="row">
+                    <h3>محددات البحث</h3>
+                    <form method="post">
+                        <div class="row">
+
+
+                            <div class="form-group col-md-3">
+                                <label class="control-label">الجمعية</label>
+                                <select name="AssociationsAffiliatedWithTheCouncilId" class="form-control"
+                                        asp-items="@(new SelectList(AssociationsAffiliatedWithTheCouncil, "Id", "Name"))">
+                                    <option value="">--الكل--</option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label class="control-label">الباحث</label>
+                                <select name="Username" class="form-control"
+                                        asp-items="@(new SelectList(Users, "UserName", "FullName"))">
+                                    <option value="">--الكل--</option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label class="control-label">رقم الهوية</label>
+                                <input name="IdentityNo" class="form-control" />
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <input type="submit" value="بحث" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                @if (VisitingFamilyItems is not null || VisitingFamilyMemberItems is not null)
+                {
+
+                    <h3>نتيجة البحث</h3>
+
+                    @foreach (var item in VisitingFamilyItems)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>@item.FullName</h4>
+
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-stripped">
+                                    <tbody>
+                                        <tr>
+                                            <th>الاسم كامل</th>
+                                            <td>@item.FullName</td>
+                                            <th>رقم الهوية</th>
+                                            <td>@item.IdentityNo</td>
+                                        </tr>
+                                        <tr>
+                                            <th>الجمعية</th>
+                                            <td>@item.AssociationsAffiliatedWithTheCouncilName</td>
+                                        </tr>
+                                        <tr>
+                                            <th>هل قمت بزيارة الأسرة/التابع؟</th>
+                                            <td>@item.DidYouVisitTheFamily</td>
+                                            <th>ملاحظة عامة</th>
+                                            <td>@item.GeneralNots</td>
+                                        </tr>
+                                        <tr>
+                                            <th>هل الأسرة/التابع مستحق للدعم</th>
+                                            <td>@item.IsDeserveSupport</td>
+                                            <th>السبب عند الإجابة بـ لا</th>
+                                            <td>@item.WhyNoDeserveSupport</td>
+                                        </tr>
+                                        <tr>
+                                            <th>تمت بتاريخ</th>
+                                            <td>@item.Created</td>
+                                            <th>بواسطة</th>
+                                            <td>@item.CreatedBy</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    @foreach (var item in VisitingFamilyMemberItems)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>@item.FullName</h4>
+
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-stripped">
+                                    <tbody>
+                                        <tr>
+                                            <th>الاسم كامل</th>
+                                            <td>@item.FullName</td>
+                                            <th>رقم الهوية</th>
+                                            <td>@item.IdentityNo</td>
+                                        </tr>
+                                        <tr>
+                                            <th>الجمعية</th>
+                                            <td>@item.AssociationsAffiliatedWithTheCouncilName</td>
+                                        </tr>
+                                        <tr>
+                                            <th>هل قمت بزيارة الأسرة/التابع؟</th>
+                                            <td>@item.DidYouVisitTheFamilyMember</td>
+                                            <th>ملاحظة عامة</th>
+                                            <td>@item.GeneralNots</td>
+                                        </tr>
+                                        <tr>
+                                            <th>هل الأسرة/التابع مستحق للدعم</th>
+                                            <td>@item.IsDeserveSupport</td>
+                                            <th>السبب عند الإجابة بـ لا</th>
+                                            <td>@item.WhyNoDeserveSupport</td>
+                                        </tr>
+                                        <tr>
+                                            <th>تمت بتاريخ</th>
+                                            <td>@item.Created</td>
+                                            <th>بواسطة</th>
+                                            <td>@item.CreatedBy</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

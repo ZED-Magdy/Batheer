@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - اسم النظام</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css" integrity="sha384-JvExCACAZcHNJEc7156QaHXTnQL3hQBixvj5RV5buE7vgnNEzzskDtx9NQ4p6BJe" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">اسم النظام</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">عن المجلس</a>
+                        </li>
+
+                        <!-- Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                مدير النظام
+                            </a>
+                            <div class="dropdown-menu">
+
+                                <a class="dropdown-item" asp-area="Administration" asp-controller="AssociationsAffiliatedWithTheCouncils" asp-action="Index">
+                                    بيانات الجمعيات التابعة للمجلس
+                                </a>
+                                <a class="dropdown-item" asp-area="Administration" asp-controller="AssociationAffiliatedProjects" asp-action="Index">
+                                    قائمة بأنواع المشروعات التي تقدمها كل جمعية
+
+                                </a>
+                                <a class="dropdown-item" asp-area="Administration" asp-controller="AssociationsAffiliatedWithTheCouncilUsers" asp-action="Index">
+                                    حسابات المسؤولين (المتطوعين) لكل جمعية على النظام
+                                </a>
+                                <a class="dropdown-item" asp-area="Administration" asp-controller="TargetedSchedulingForProjectImplementations" asp-action="Index">
+                                    الجدولة الزمنية المستهدفة لتنفيذ كل مشروع
+                                </a>
+                                <a class="dropdown-item" asp-area="Administration" asp-controller="TheIntendedBeneficiariesOfTheScheduledAssociationProjects" asp-action="Index">
+                                    الجدولة الزمنية المستهدفة لتنفيذ كل مشروع
+                                </a>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                الجمعية
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="AssociationsAffiliated" asp-controller="ManageFamilies" asp-action="Index">
+                                    إدارة العائلات
+                                </a>
+                                <a class="dropdown-item" asp-area="AssociationsAffiliated" asp-controller="AssociationAffiliatedProjects" asp-action="Index">
+                                    إدارة المشاريع
+                                </a>
+                                <a class="dropdown-item" asp-area="AssociationsAffiliated" asp-controller="TargetedSchedulingForProjectImplementations" asp-action="Index">
+                                    الجدولة الزمنية المستهدفة لتنفيذ كل مشروع
+                                </a>
+                                @*<a class="dropdown-item" asp-area="AssociationsAffiliated" asp-controller="TheIntendedBeneficiariesOfTheScheduledAssociationProjects" asp-action="Index">
+                                        المستفيدين المستهدفين لمشروع الجمعية المجدولة
+                                    </a>*@
+
+                                <a class="dropdown-item" asp-area="AssociationsAffiliated" asp-controller="EnsuringOrphanRequests" asp-action="Search">
+                                    البحث عن المستفيدين
+
+                                </a>
+                                <a class="dropdown-item" asp-area="AssociationsAffiliated" asp-controller="DeliveryAids" asp-action="index">
+                                    تسليم المستفيدين
+                                </a>
+
+
+                            </div>
+                        </li>
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 1442 - اسم النظام - <a asp-area="" asp-controller="Home" asp-action="Privacy">الجمعيات التابعة للمجلس</a>
+        </div>
+    </footer>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.rtlcss.com/bootstrap/v4.5.3/js/bootstrap.bundle.min.js" integrity="sha384-40ix5a3dj6/qaC7tfz0Yr+p9fqWLzzAXiwxVLt9dw7UjQzGYw6rWRhFAnRapuQyK" crossorigin="anonymous"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

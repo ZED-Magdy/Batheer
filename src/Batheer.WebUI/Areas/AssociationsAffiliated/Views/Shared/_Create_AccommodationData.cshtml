@@ -1,0 +1,26 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>بيانات السكن</h4>
+<hr />
+<div class="row">
+
+
+    <div class="form-group col-md-6">
+        <label asp-for="AccommodationData.AccommodationTypeId" class="control-label">نوع السكن</label>
+        <select asp-for="AccommodationData.AccommodationTypeId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.AccommodationTypeId, "Id", "Name"))" required >
+            <option selected disabled value="">--الرجاء الاختيار--</option>
+        </select>
+        <span asp-validation-for="AccommodationData.AccommodationTypeId" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="AccommodationData.Others" class="control-label">أخرى</label>
+        <input asp-for="AccommodationData.Others" class="form-control" />
+        <span asp-validation-for="AccommodationData.Others" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

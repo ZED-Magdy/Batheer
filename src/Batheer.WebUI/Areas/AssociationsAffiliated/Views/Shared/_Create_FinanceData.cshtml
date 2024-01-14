@@ -1,0 +1,31 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>بيانات التمويل</h4>
+<hr />
+<div class="row">
+    <div class="form-group col-md-6">
+        <label asp-for="FinanceData.FinanceTypeId" class="control-label">ما نوع التمويل الذي ترغب به؟</label>
+        <select asp-for="FinanceData.FinanceTypeId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.FinanceTypeId, "Id", "Name"))">
+            <option>--الرجاء الاختيار--</option>
+        </select>
+        <span asp-validation-for="FinanceData.FinanceTypeId" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="FinanceData.ProducedFamilyProductId" class="control-label">
+            إذا الاختيار أسر منتجة اختر من القائمة التالية:
+        </label>
+        <select asp-for="FinanceData.ProducedFamilyProductId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.ProducedFamilyProductId, "Id", "Name"))">
+            <option>--الرجاء الاختيار--</option>
+        </select>
+        <span asp-validation-for="FinanceData.ProducedFamilyProductId" class="text-danger"></span>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

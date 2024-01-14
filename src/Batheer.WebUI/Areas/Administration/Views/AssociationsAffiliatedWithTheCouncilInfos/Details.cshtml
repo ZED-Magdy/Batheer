@@ -1,0 +1,194 @@
+﻿@using Batheer.Application.AssociationsAffiliatedWithTheCouncilInfos.Queries.GetByObjectkey
+@using Batheer.Application.Modules.Lookups.Queries.GetActivityTypes
+@using Batheer.Application.Modules.Lookups.Queries.GetCities
+@using Batheer.Application.Modules.Lookups.Queries.GetClassifications
+@using Batheer.Application.Modules.Lookups.Queries.GetTowns
+@model Batheer.Application.AssociationsAffiliatedWithTheCouncilInfos.Queries.GetByObjectkey.AssociationsAffiliatedWithTheCouncilInfoDto
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator Mediator;
+
+@{
+    ViewBag.Title = "بيانات الجمعية";
+
+    ViewBag.ActivityTypeId = await Mediator.Send(new GetActivityTypesQuery());
+    ViewBag.ClassificationId = await Mediator.Send(new GetClassificationsQuery());
+    //ViewBag.CityId = await Mediator.Send(new GetCitiesQuery());
+    var towns = await Mediator.Send(new GetTownsQuery());
+
+
+}
+
+<h4>@ViewBag.Title</h4>
+<hr />
+<div class="row">
+
+    <div class="row">
+        <div class="col-2">
+            <label asp-for="TownId" class="control-label">المدينة/المحافظة</label>
+        </div>
+        <div class="col-5">
+
+
+            <select asp-for="TownId" class="form-control" readonly>
+                <option selected disabled value="">--الرجاء الاختيار--</option>
+                @foreach (var city in towns.GroupBy(g => g.CityName))
+                {
+                    <optgroup label="@city.Key">
+                        @foreach (var town in city)
+                        {
+                            <option value="@town.Id">@town.Name</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2">
+            رئيس المجلس
+        </div>
+        <div class="col-5">
+            <label asp-for="President_Name" class="control-label">الاسم</label>
+            <input asp-for="President_Name" class="form-control" readonly />
+        </div>
+        <div class="col-5">
+            <label asp-for="President_Mobile" class="control-label">الرقم</label>
+            <input asp-for="President_Mobile" class="form-control" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            نائب رئيس المجلس
+        </div>
+        <div class="col-5">
+            <label asp-for="VicePresident_Name" class="control-label">الاسم</label>
+            <input asp-for="VicePresident_Name" class="form-control" readonly />
+        </div>
+        <div class="col-5">
+            <label asp-for="VicePresident_Mobile" class="control-label">الرقم</label>
+            <input asp-for="VicePresident_Mobile" class="form-control" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            مدير الجمعية
+        </div>
+        <div class="col-5">
+            <label asp-for="Manager_Name" class="control-label">الاسم</label>
+            <input asp-for="Manager_Name" class="form-control" readonly />
+        </div>
+        <div class="col-5">
+            <label asp-for="Manager_Mobile" class="control-label">الرقم</label>
+            <input asp-for="Manager_Mobile" class="form-control" readonly />
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="EmployeesCount" class="control-label">عدد الموظفين</label>
+            <input asp-for="EmployeesCount" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+            <label asp-for="GeneralMembersCount" class="control-label">عدد أعضاء الجمعية العمومية</label>
+            <input asp-for="GeneralMembersCount" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+            <label asp-for="MembersCount" class="control-label">عدد أعضاء المجلس</label>
+            <input asp-for="MembersCount" class="form-control" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="LicenseNumber" class="control-label">رقم ترخيص الجمعية</label>
+            <input asp-for="LicenseNumber" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+            <label asp-for="MembershipDate" class="control-label">تاريخ أعضاء مجلس الجمعية</label>
+            <input asp-for="MembershipDate" type="date" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+            <label asp-for="MembershipEndDate" class="control-label">تاريخ الانتهاء</label>
+            <input asp-for="MembershipEndDate" type="date" class="form-control" readonly />
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="ContactNumber" class="control-label">رقم التواصل</label>
+            <input asp-for="ContactNumber" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+            <label asp-for="Email" class="control-label">البريد الالكتروني</label>
+            <input asp-for="Email" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+            <label asp-for="WebsiteUrl" class="control-label">رابط موقع الجمعية الالكتروني</label>
+            <input asp-for="WebsiteUrl" class="form-control" readonly />
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="ClassificationId" class="control-label">التصنيف حسب الوزارة</label>
+
+            <select asp-for="ClassificationId" class="form-control" readonly
+                    asp-items="@(new SelectList(ViewBag.ClassificationId, "Id", "Name"))">
+                <option selected disabled value="">--الرجاء الاختيار--</option>
+            </select>
+
+
+        </div>
+        <div class="col-8">
+            <label class="control-label ">نوع نشاط الجمعية</label>
+            <br />
+
+            @foreach (var item in ViewBag.ActivityTypeId)
+            {
+
+                var @checked = Model?.ActivityTypes?.Any(a => a.ActivityTypeId == item.Id);
+
+                <div class="form-check form-check-inline col-3">
+
+                    <input class="form-check-input" name="ActivityTypes" type="checkbox" value="@item.Id"
+                       readonly
+                       @(@checked.GetValueOrDefault() ? "checked" : "")>
+
+                    <label class="form-check-label"> @item.Name</label>
+                </div>
+
+            }
+        </div>
+    </div>
+
+
+
+
+    <div class="col-12">
+        <label asp-for="LocationOnGoogleMap" class="control-label">
+            رابط موقع الجمعية على خريطة جوجل ماب
+        </label>
+        <input asp-for="LocationOnGoogleMap" class="form-control" readonly />
+    </div>
+
+
+    <div class="col-12">
+        <a class="btn btn-primary" asp-action="Index">عودة</a>
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    }

@@ -1,0 +1,25 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.BankDefaultData
+
+<h4>البنوك</h4>
+<hr />
+<div class="row">
+    @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsThereABankDefault" /> @Html.DisplayNameFor(model => model.IsThereABankDefault)
+            </label>
+        </div>*@
+
+
+    <div class="custom-control col-md-6 custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="IsThereABankDefault">
+        <label class="custom-control-label" for="IsThereABankDefault">
+
+            هل يوجد تعثر لأحد البنوك؟
+        </label>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

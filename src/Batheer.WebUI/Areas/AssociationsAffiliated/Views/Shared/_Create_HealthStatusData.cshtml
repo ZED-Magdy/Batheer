@@ -1,0 +1,31 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>بيانات الحالة الصحية</h4>
+<hr />
+<div class="row">
+    <div class="form-group col-md-6">
+        <label asp-for="HealthStatusData.HealthStatusId" class="control-label">الحالة الصحية</label>
+        <select asp-for="HealthStatusData.HealthStatusId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.HealthStatusId, "Id", "Name"))" required>
+            <option selected disabled value="">--الرجاء الاختيار--</option>
+        </select>
+        <span asp-validation-for="HealthStatusData.HealthStatusId" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="HealthStatusData.Others" class="control-label">أخرى</label>
+        <input asp-for="HealthStatusData.Others" class="form-control" />
+        <span asp-validation-for="HealthStatusData.Others" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="HealthStatusData.Description" class="control-label">نوع المرض أو الإعاقة إن وجد</label>
+        <input asp-for="HealthStatusData.Description" class="form-control" />
+        <span asp-validation-for="HealthStatusData.Description" class="text-danger"></span>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

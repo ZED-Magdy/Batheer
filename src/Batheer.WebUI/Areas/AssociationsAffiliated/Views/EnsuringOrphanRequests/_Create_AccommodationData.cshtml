@@ -1,0 +1,22 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.AccommodationData
+
+<h4>بيانات السكن</h4>
+<hr />
+<div class="row">
+
+
+    <div class="form-group col-md-6">
+        <label asp-for="AccommodationTypeId" class="control-label">نوع السكن</label>
+        <select asp-for="AccommodationTypeId" class="form-control" asp-items="ViewBag.AccommodationTypeId"></select>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="Others" class="control-label">أخرى</label>
+        <input asp-for="Others" class="form-control" />
+        <span asp-validation-for="Others" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

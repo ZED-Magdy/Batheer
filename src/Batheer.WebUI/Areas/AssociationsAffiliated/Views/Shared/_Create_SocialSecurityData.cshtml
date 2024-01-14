@@ -1,0 +1,23 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>بيانات الضمان الاجتماعي</h4>
+<hr />
+<div class="row">
+
+    <div class="custom-control col-md-6 custom-checkbox">
+        <input asp-for="SocialSecurityData.AreYouABeneficiaryOfSocialSecurity" type="checkbox" class="form-check-input" >
+        <label class="form-check-label" asp-for="SocialSecurityData.AreYouABeneficiaryOfSocialSecurity">هل أنت من مستفيدي الضمان الاجتماعي</label>
+    </div>
+
+
+    <div class="form-group col-md-6">
+        <label asp-for="SocialSecurityData.Description" class="control-label">اسم الجمعية المسجل فيها إن وجد</label>
+        <input asp-for="SocialSecurityData.Description" class="form-control" />
+        <span asp-validation-for="SocialSecurityData.Description" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

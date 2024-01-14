@@ -1,0 +1,27 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.SocialSecurityData
+
+<h4>بيانات الضمان الاجتماعي</h4>
+<hr />
+<div class="row">
+
+    <div class="custom-control col-md-6 custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="AreYouABeneficiaryOfSocialSecurity">
+        <label class="custom-control-label" for="AreYouABeneficiaryOfSocialSecurity">هل أنت من مستفيدي الضمان الاجتماعي</label>
+    </div>
+
+    @*<div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="AreYouABeneficiaryOfSocialSecurity" /> @Html.DisplayNameFor(model => model.AreYouABeneficiaryOfSocialSecurity)
+        </label>
+    </div>*@
+    <div class="form-group col-md-6">
+        <label asp-for="Description" class="control-label">اسم الجمعية المسجل فيها إن وجد</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,33 @@
+# This is a sample build configuration for .NET Core.
+# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: mcr.microsoft.com/dotnet/sdk 
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - dotnetcore
+        script: # Modify the commands below to build your repository.
+          - export PROJECT_NAME=src/WebApplication2.sln
+          - export RELEASES_DIR="./releases"
+           #- export TEST_NAME=WebApiDemo.Tests
+          - dotnet restore src
+          - dotnet build src
+           #- dotnet test $TEST_NAME
+          - dotnet publish src/WebApplication2.sln --output ${RELEASES_DIR} --configuration Release
+          - echo "creating keys folder"
+          - mkdir -p ${RELEASES_DIR}/Keys
+          #- icacls ${RELEASES_DIR}/Keys /grant 'IIS_IUSRS:(F)'
+          - chmod -R ugo+rw ${RELEASES_DIR}/Keys
+
+          
+          - pipe: atlassian/ftp-deploy:0.3.1
+            variables:
+                 USER: $PROD_FTP_USERNAME
+                 PASSWORD: $PROD_FTP_PASSWORD
+                 SERVER: $PROD_FTP_HOST
+                 REMOTE_PATH: $PROD_FTP_PATH
+                 LOCAL_PATH: $RELEASES_DIR  

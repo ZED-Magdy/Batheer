@@ -1,0 +1,90 @@
+﻿@using Batheer.Application.Summaries.Queries.GetRequestsCount
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator _mediator;
+
+
+
+<cache expires-after="@TimeSpan.FromSeconds(120)">
+    آخر تحديث: @DateTime.Now
+
+    @{
+
+        var result = await _mediator.Send(new GetRequestsCountQuery(null));
+    }
+    <div class="row">
+        <div class="col-sm-6 col-lg-4">
+              <div class="card mb-4" style="--cui-card-cap-bg: #3b5998">
+                <div class="card-header position-relative d-flex justify-content-center align-items-center">
+                  <svg class="icon icon-3xl text-white my-4">
+                    <use xlink:href="/themes/coreui/vendors/brand.svg#cib-creative-commons-share"></use>
+                  </svg>
+                  <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
+                    <canvas id="social-box-chart-1" height="90"></canvas>
+                  </div>
+                </div>
+                <div class="card-body row text-center">
+                  <div class="col">
+                    <div class="fs-5 fw-semibold">@result[0].Value</div>
+                    <div class="text-uppercase text-medium-emphasis small">دعم الأسر</div>
+                  </div>
+                  <div class="vr"></div>
+                  <div class="col">
+                    <div class="fs-5 fw-semibold">@result[1].Value</div>
+                    <div class="text-uppercase text-medium-emphasis small">تمكين الأسر</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        <div class="col-sm-6 col-lg-4">
+              <div class="card mb-4" style="--cui-card-cap-bg: #00aced">
+                <div class="card-header position-relative d-flex justify-content-center align-items-center">
+                  <svg class="icon icon-3xl text-white my-4">
+                    <use xlink:href="/themes/coreui/vendors/brand.svg#cib-genius"></use>
+                  </svg>
+                  <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
+                    <canvas id="social-box-chart-2" height="90"></canvas>
+                  </div>
+                </div>
+                <div class="card-body row text-center">
+                  <div class="col">
+                    <div class="fs-5 fw-semibold">@result[5].Value</div>
+                    <div class="text-uppercase text-medium-emphasis small">مسجل بالضمان</div>
+                  </div>
+                  <div class="vr"></div>
+                  <div class="col">
+                    <div class="fs-5 fw-semibold">@result[4].Value</div>
+                    <div class="text-uppercase text-medium-emphasis small">غير مسجل بالضمان</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        <div class="col-sm-6 col-lg-4">
+              <div class="card mb-4" style="--cui-card-cap-bg: #4875b4">
+                <div class="card-header position-relative d-flex justify-content-center align-items-center">
+                  <svg class="icon icon-3xl text-white my-4">
+                    <use xlink:href="/themes/coreui/vendors/brand.svg#cib-everplaces"></use>
+                  </svg>
+                  <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
+                    <canvas id="social-box-chart-3" height="90"></canvas>
+                  </div>
+                </div>
+                <div class="card-body row text-center">
+                  <div class="col">
+                    <div class="fs-5 fw-semibold">@result[2].Value</div>
+                    <div class="text-uppercase text-medium-emphasis small">خارج تبوك</div>
+                  </div>
+                  <div class="vr"></div>
+                  <div class="col">
+                    <div class="fs-5 fw-semibold">@result[3].Value</div>
+                    <div class="text-uppercase text-medium-emphasis small">داخل تبوك</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+    </div>
+
+
+</cache>

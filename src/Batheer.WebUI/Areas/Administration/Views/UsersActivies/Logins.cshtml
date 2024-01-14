@@ -1,0 +1,287 @@
+﻿@using Batheer.Application.Users.Queries.GetUsersWithLastLoginAt;
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator Mediator;
+
+@{
+    ViewData["Title"] = "نشاط المستخدمين" + @" / " + "تسجيل الدخول والبيانات";
+
+    var result = await Mediator.Send(new GetUsersWithLastLoginAtQuery());
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h1>@ViewData["Title"]</h1>
+            </div>
+            <div class="card-body">
+
+
+                <br />
+                <div class="row">
+
+                    <h3>نوع الحساب : الجمعيات</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>بيانات الحساب</th>
+                                <th>الجداول</th>
+                                <th>حالة الحساب</th>
+                                <th>آخر تسجيل دخول</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in result.Where(w => w.UserRole == Batheer.Domain.AuthenticationUsers.User.UserRoles.CouncilRole))
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="avatar">
+                                            <img class="avatar-img" src="~/UploadedFiles/ShowByObjectKey?objectKey=@item.PhotoObjectkey" alt="user@email.com">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                الاسم :
+                                                @item.FullName
+                                            </li>
+                                            <li class="list-group-item">
+                                                اسم الجمعية :
+                                                @item.CouncilName
+                                            </li>
+                                            <li class="list-group-item">
+                                                اسم المستخدم :
+                                                @item.UserName
+                                            </li>
+                                            <li class="list-group-item">
+                                                نوع الحساب :
+                                                @item.UserRoleName
+                                            </li>
+
+                                        </ul>
+
+
+                                    </td>
+                                    <td>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                العائلات :
+                                                @item.Families_LastModified?.TimeAgo()
+
+                                            </li>
+                                            <li class="list-group-item">
+                                                أفراد العائلات :
+                                                @item.FamilyMembers_LastModified?.TimeAgo()
+                                            </li>
+                                            <li class="list-group-item">
+                                                المشاريع :
+                                                @item.AssociationAffiliatedProjects_LastModified?.TimeAgo()
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>@(item.IsActive ? "مفعل" : "غير مفعل ")</td>
+
+
+                                    <td>
+                                        @item.LastLoginAtUtc?.ToString("yyyy/MM/dd HH:mm")
+                                        <br>
+                                        <strong>@item.LastLoginAtUtc?.TimeAgo()</strong>
+
+                                        @if (item.LastLoginAtUtc.HasValue == false)
+                                        {
+                                            <div class="text text-danger">
+                                                لا يوجد تسجيل دخول
+                                            </div>
+                                        }
+                                    </td>
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <br />
+                <div class="row">
+
+                    <h3>نوع الحساب : الباحثين</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>بيانات الحساب</th>
+                                <th>الجداول</th>
+                                <th>حالة الحساب</th>
+                                <th>آخر تسجيل دخول</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in result.Where(w => w.UserRole == Batheer.Domain.AuthenticationUsers.User.UserRoles.Researcher))
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="avatar">
+                                            <img class="avatar-img" src="~/UploadedFiles/ShowByObjectKey?objectKey=@item.PhotoObjectkey" alt="user@email.com">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                الاسم :
+                                                @item.FullName
+                                            </li>
+                                            <li class="list-group-item">
+                                                اسم الجمعية :
+                                                @item.CouncilName
+                                            </li>
+                                            <li class="list-group-item">
+                                                اسم المستخدم :
+                                                @item.UserName
+                                            </li>
+                                            <li class="list-group-item">
+                                                نوع الحساب :
+                                                @item.UserRoleName
+                                            </li>
+
+                                        </ul>
+
+
+                                    </td>
+                                    <td>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                العائلات :
+                                                @item.Families_LastModified?.TimeAgo()
+
+                                            </li>
+                                            <li class="list-group-item">
+                                                أفراد العائلات :
+                                                @item.FamilyMembers_LastModified?.TimeAgo()
+                                            </li>
+                                            <li class="list-group-item">
+                                                المشاريع :
+                                                @item.AssociationAffiliatedProjects_LastModified?.TimeAgo()
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>@(item.IsActive ? "مفعل" : "غير مفعل ")</td>
+
+
+                                    <td>
+                                        @item.LastLoginAtUtc?.ToString("yyyy/MM/dd HH:mm")
+                                        <br>
+                                        <strong>@item.LastLoginAtUtc?.TimeAgo()</strong>
+
+                                        @if (item.LastLoginAtUtc.HasValue == false)
+                                        {
+                                            <div class="text text-danger">
+                                                لا يوجد تسجيل دخول
+                                            </div>
+                                        }
+                                    </td>
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <br />
+                <div class="row">
+
+                    <h3>نوع الحساب : مدير النظام</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>بيانات الحساب</th>
+                                <th>الجداول</th>
+                                <th>حالة الحساب</th>
+                                <th>آخر تسجيل دخول</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in result.Where(w => w.UserRole == Batheer.Domain.AuthenticationUsers.User.UserRoles.AdminRole))
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="avatar">
+                                            <img class="avatar-img" src="~/UploadedFiles/ShowByObjectKey?objectKey=@item.PhotoObjectkey" alt="user@email.com">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                الاسم :
+                                                @item.FullName
+                                            </li>
+                                            <li class="list-group-item">
+                                                اسم الجمعية :
+                                                @item.CouncilName
+                                            </li>
+                                            <li class="list-group-item">
+                                                اسم المستخدم :
+                                                @item.UserName
+                                            </li>
+                                            <li class="list-group-item">
+                                                نوع الحساب :
+                                                @item.UserRoleName
+                                            </li>
+
+                                        </ul>
+
+
+                                    </td>
+                                    <td>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                العائلات :
+                                                @item.Families_LastModified?.TimeAgo()
+
+                                            </li>
+                                            <li class="list-group-item">
+                                                أفراد العائلات :
+                                                @item.FamilyMembers_LastModified?.TimeAgo()
+                                            </li>
+                                            <li class="list-group-item">
+                                                المشاريع :
+                                                @item.AssociationAffiliatedProjects_LastModified?.TimeAgo()
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>@(item.IsActive ? "مفعل" : "غير مفعل ")</td>
+
+
+                                    <td>
+                                        @item.LastLoginAtUtc?.ToString("yyyy/MM/dd HH:mm")
+                                        <br>
+                                        <strong>@item.LastLoginAtUtc?.TimeAgo()</strong>
+
+                                        @if (item.LastLoginAtUtc.HasValue == false)
+                                        {
+                                            <div class="text text-danger">
+                                                لا يوجد تسجيل دخول
+                                            </div>
+                                        }
+                                    </td>
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

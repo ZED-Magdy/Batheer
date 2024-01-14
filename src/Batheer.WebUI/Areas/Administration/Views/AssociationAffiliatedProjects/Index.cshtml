@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Batheer.Application.AssociationAffiliatedProjects.Queries.GetAssociationAffiliatedProjects.AssociationAffiliatedProject>
+
+@using Batheer.WebUI.Utls;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>مشاريع الجمعيات الأهلية</h1>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                تصنيف المشروع
+            </th>
+            <th>
+                اسم الجمعية
+            </th>
+
+            <th>
+                اسم المشروع
+            </th>
+            <th>من تاريخ</th>
+            <th>إلى تاريخ</th>
+            <th>حالة المشروع</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(o => o.FromDate))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CouncilProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssociationsAffiliatedWithTheCouncilName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ToDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImplementationStatusName)
+                </td>
+                <td>
+                    <a asp-action="ManageBeneficiaries" asp-route-targetedSchedulingForProjectImplementationId="@item.TargetedSchedulingForProjectImplementationId">عرض المستهدفين</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,58 @@
+
+declare 
+@fullName nvarchar(max) = N'%ع%',
+@identityNo nvarchar(50) =N'%2%',
+@genderId int,
+@nationalityId int,
+@AccommodationTypeId int,
+@email nvarchar(max),
+@mobile nvarchar(50),
+@PhoneNumber nvarchar(50),
+
+@MaritalStatusId int,
+@EducationalLevelId int,
+@HealthStatusId int,
+@OccupationId int,
+@MonthlyIncomeId int,
+@AssociationsAffiliatedWithTheCouncilId int,
+@HasSupportingFamilyRequest bit
+
+select * from SupportingFamilyRequests
+--select * from ResponsibleFamilyMembers
+
+select * from 
+PersonalDataForm p
+left join FamilyMembers fm on fm.PersonalDataFormId = p.Id
+left join ResponsibleFamilyMembers rfm on rfm.PersonalDataFormId = p.Id
+left join Families f on f.Id = fm.FamilyId 
+left join AccommodationData ad on ad.Id = f.AccommodationDataId
+left join AccommodationTypes at on at.Id = ad.AccommodationTypeId
+left join ContactInformationData cd on cd.Id = f.ContactInformationId
+left join MaritalStatusData msd on msd.id = rfm.MaritalStatusDataId
+left join MaritalStatuses ms on ms.Id = msd.MaritalStatusId
+left join EducationalData ed on ed.Id = fm.EducationalDataId or rfm.EducationalDataId = ed.Id
+left join EducationalLevels el on el.Id = ed.EducationalLevelId
+left join HealthStatusData hsd on hsd.Id = fm.HealthStatusDataId or hsd.Id = rfm.HealthStatusDataId
+left join HealthStatuses hs on hs.Id = hsd.HealthStatusId
+left join OccupationData od on od.Id = fm.EducationalDataId or od.Id = rfm.OccupationDataId
+left join Occupations o on o.Id = od.OccupationId
+left join MonthlyIncomeData mid on mid.Id = f.MonthlyIncomeDataId
+left join FamilyRegistrationRequests frr on frr.FamilyId = f.Id
+left join SupportingFamilyRequests sfr on sfr.FamilyId = f.id
+
+where 
+	(@fullName is null or p.FirstName like @fullName or p.FatherName like @fullName or p.GrandFatherName like  @fullName or p.FamilyName like @fullName )
+and (p.IdentityNo like @identityNo or @identityNo is null)
+and	(p.GenderId = @genderId or @genderId is null)
+and (p.NationalityId = @nationalityId or @nationalityId is null)
+and (ad.AccommodationTypeId = @AccommodationTypeId or @AccommodationTypeId is null)
+and (cd.Email like @email or @email is null)
+and (cd.Mobile like @mobile or @mobile is null)
+and (cd.PhoneNumber like @PhoneNumber or @PhoneNumber is null)
+and (msd.MaritalStatusId = @MaritalStatusId or @MaritalStatusId is null)
+and (ed.EducationalLevelId = @EducationalLevelId or @EducationalLevelId is null)
+and (hsd.HealthStatusId = @HealthStatusId or @HealthStatusId is null)
+and (od.OccupationId = @OccupationId or @OccupationId is null)
+and (mid.MonthlyIncomeId =@MonthlyIncomeId or @MonthlyIncomeId is null)
+and (frr.AssociationsAffiliatedWithTheCouncilId = @AssociationsAffiliatedWithTheCouncilId or @AssociationsAffiliatedWithTheCouncilId is null)
+and (@HasSupportingFamilyRequest is null or (@HasSupportingFamilyRequest = 0 and sfr.id is null) or (@HasSupportingFamilyRequest = 1 and sfr.id is not null))

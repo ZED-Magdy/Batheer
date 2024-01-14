@@ -1,0 +1,53 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>عنوان الإقامة</h4>
+<hr />
+<div class="row">
+
+    <div class="form-group col-md-6">
+        <label asp-for="ResidencyAddressData.IsOutOfTabuk" class="control-label">خارج  تبوك</label>
+        <select asp-for="ResidencyAddressData.IsOutOfTabuk" class="form-control" required>
+            <option value="true">نعم</option>
+            <option value="false">لا</option>
+        </select>
+
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="ResidencyAddressData.Province" class="control-label">المحافظة</label>
+        <input asp-for="ResidencyAddressData.Province" class="form-control" required />
+        <span asp-validation-for="ResidencyAddressData.Province" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label asp-for="ResidencyAddressData.District" class="control-label">الحي</label>
+        <input asp-for="ResidencyAddressData.District" class="form-control" required />
+        <span asp-validation-for="ResidencyAddressData.District" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="ResidencyAddressData.Street" class="control-label">الشارع</label>
+        <input asp-for="ResidencyAddressData.Street" class="form-control" />
+        <span asp-validation-for="ResidencyAddressData.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="ResidencyAddressData.Others" class="control-label">أخرى</label>
+        <input asp-for="ResidencyAddressData.Others" class="form-control" />
+        <span asp-validation-for="ResidencyAddressData.Others" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-12">
+        <label asp-for="ResidencyAddressData.LocationOnTheMap" class="control-label">الموقع على الخارطة</label>
+        <input asp-for="ResidencyAddressData.LocationOnTheMap" class="form-control" />
+        <span asp-validation-for="ResidencyAddressData.LocationOnTheMap" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-12">
+        @*<label asp-for="ResidencyAddressData.LocationOnTheMap" class="control-label">الموقع على الخارطة</label>
+        <input asp-for="ResidencyAddressData.LocationOnTheMap" class="form-control" />
+        <span asp-validation-for="ResidencyAddressData.LocationOnTheMap" class="text-danger"></span>*@
+        <button class="btn btn-outline-primary m-2" onclick="getLocation();return false;">عرض الموقع الحالي</button>
+        <div id="map" style="height:400px"></div>
+        <input asp-for="GoogleMapValuesDto" class="form-control" type="hidden" />
+    </div>
+
+</div>
+
+
+

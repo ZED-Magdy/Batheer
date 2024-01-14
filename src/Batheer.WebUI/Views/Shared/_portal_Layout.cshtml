@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>@ViewData["Title"] - @ViewBag.SystemName</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/themes/scaffold/assets/img/favicon.png" rel="icon">
+    <link href="/themes/scaffold/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200&family=Tajawal:wght@200;300;400&display=swap" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="/themes/scaffold/assets/vendor/aos/aos.css" rel="stylesheet">
+    <!-- <link href="/themes/scaffold/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.rtl.min.css" integrity="sha384-trxYGD5BY4TyBTvU5H23FalSCYwpLA0vWEvXXGm5eytyztxb+97WzzY+IWDOSbav" crossorigin="anonymous">
+    <link href="/themes/scaffold/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/themes/scaffold/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/themes/scaffold/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/themes/scaffold/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="/themes/scaffold/assets/css/style.css" rel="stylesheet">
+
+
+    <!-- =======================================================
+    * Template Name: Scaffold - v4.1.0
+    * Template URL: https://bootstrapmade.com/scaffold-bootstrap-metro-style-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex align-items-center">
+
+            <div class="logo me-auto">
+                <h1><a href="~/">باذر</a></h1>
+
+                @*<img src="~/minister.jpg" alt="" class="img-fluid">*@
+                <!-- Uncomment below if you prefer to use an image logo -->
+                @*<a href="index.html"><img src="/themes/scaffold/assets/img/logo.png" alt="" class="img-fluid"></a>*@
+                @*<a href="index.html"><img src="~/minister.jpg" alt="" class="img-fluid"></a>*@
+            </div>
+
+
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="/">الرئيسية</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>@Batheer.WebUI.Common.UIHelper.SystemBrandName</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a class="nav-link scrollto" href="#about">عن النطام</a></li>
+                            <li><a class="nav-link scrollto" href="#team">الرؤية والرسالة والقيم</a></li>
+                        </ul>
+                    </li>
+                    @*<li><a class="nav-link scrollto" href="/home/services">الخدمات</a></li>*@
+                    <li><a class="nav-link scrollto" href="/home/AssociationAffiliateds">الجمعيات</a></li>
+                    <!-- <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
+                    <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li> -->
+                    <li><a class="nav-link scrollto" href="/home/contactus">تواصل معنا</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        <li><a class="nav-link scrollto" asp-controller="Account" asp-action="Logout">خروج</a></li>
+                        if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.AdminRole.ToString()))
+                        {
+                            <li><a class="nav-link scrollto" asp-controller="Home" asp-action="index" asp-area="Administration">لوحة التحكم</a></li>
+                        }
+                        else if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.CouncilRole.ToString()))
+                        {
+                            <li><a class="nav-link scrollto" asp-controller="Home" asp-action="index" asp-area="AssociationsAffiliated">لوحة التحكم</a></li>
+                        }
+                        else if (User.IsInRole(Batheer.Domain.AuthenticationUsers.User.UserRoles.Researcher.ToString()))
+                        {
+                            <li><a class="nav-link scrollto" asp-controller="Home" asp-action="index" asp-area="Researcher">لوحة التحكم</a></li>
+                        }
+                    }
+                    else
+                    {
+                        <li><a class="nav-link scrollto" asp-controller="Account" asp-action="Login">دخول</a></li>
+
+                    }
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+            <div class="header-social-links d-flex align-items-center">
+                <a href="https://twitter.com/ngostsa" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+
+        </div>
+    </header><!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" style="min-height:640px">
+
+        <div class="container">
+            @RenderBody()
+
+        </div>
+
+    </section><!-- End Hero -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="fixed-bottom">
+
+        @*<div class="container">
+                <div class="copyright">
+                    &copy; Copyright <strong><span>Scaffold</span></strong>. All Rights Reserved
+                </div>
+                <div class="credits">
+                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                </div>
+            </div>*@
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="/themes/scaffold/assets/vendor/aos/aos.js"></script>
+    <script src="/themes/scaffold/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/themes/scaffold/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/themes/scaffold/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/themes/scaffold/assets/vendor/php-email-form/validate.js"></script>
+    <script src="/themes/scaffold/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="/themes/scaffold/assets/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Batheer.Application.TargetedSchedulingForProjectImplementations.Queries.GetByAssociationsAffiliatedId.TargetedSchedulingForProjectImplementation>
+
+
+@using Batheer.WebUI.Utls;
+@{
+    ViewBag.Title = "الجدولة الزمنية المستهدفة";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h1>الجدولة الزمنية المستهدفة لتنفيذ كل مشروع </h1>
+                <p>
+
+                    <a asp-action="Create" class="btn btn-outline-primary"> إنشاء جدولة</a>
+
+                </p>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                اسم المشروع
+                            </th>
+                            <th>
+                                تصنيف المشروع
+                            </th>
+                            <th>
+                                من تاريخ
+                            </th>
+                            <th>
+                                إلى تاريخ
+                            </th>
+                            <th>
+                                حالة المشروع
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProjectName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CouncilProjectName)
+                                </td>
+                                <td>
+                                    @item.FromDate.ToString("yyyy/MM/dd")
+                                </td>
+                                <td>
+                                    @item.ToDate.ToString("yyyy/MM/dd")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TargetedSchedulingForProjectImplementationStatusName)
+                                </td>
+                                <td>
+                                    <a asp-controller="TheIntendedBeneficiaries" asp-action="ManageBeneficiaries" asp-route-targetedSchedulingForProjectImplementationId="@item.Id">المستهدفين من المشروع</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">تعديل</a> |
+                                    <a class="btn btn-outline-primary" asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+                

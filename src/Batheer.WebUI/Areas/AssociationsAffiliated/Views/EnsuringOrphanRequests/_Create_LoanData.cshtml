@@ -1,0 +1,40 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.LoanData
+
+<h4>بيانات القروض</h4>
+<hr />
+<div class="row">
+
+    <div class="custom-control col-md-6 custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="DoYouHaveLoansOrOtherObligations">
+        <label class="custom-control-label" for="DoYouHaveLoansOrOtherObligations">
+
+            هل لديك قروض أو التزامات أخرى؟
+        </label>
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="Others" class="control-label">أخرى</label>
+        <input asp-for="Others" class="form-control" />
+        <span asp-validation-for="Others" class="text-danger"></span>
+    </div>
+
+    @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="AreYouABeneficiaryOfSocialSecurity" /> @Html.DisplayNameFor(model => model.AreYouABeneficiaryOfSocialSecurity)
+            </label>
+        </div>*@
+    <div class="form-group col-md-6">
+        <label asp-for="LoanTypeId" class="control-label">ما نوع القرض</label>
+        <select asp-for="LoanTypeId" class="form-control" asp-items="ViewBag.LoanTypeId"></select>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label asp-for="Description" class="control-label">تفصيل القرض</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

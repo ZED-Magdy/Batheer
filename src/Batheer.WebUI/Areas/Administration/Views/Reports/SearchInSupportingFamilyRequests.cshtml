@@ -1,0 +1,353 @@
+﻿@model SearchInSupportingFamilyRequestsQuery
+@using Batheer.Application.Modules.Lookups.Queries.GetAccommodationTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetEducationalLevels;
+@using Batheer.Application.Modules.Lookups.Queries.GetEstimatedProjectCosts;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyCategories;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeeds;
+@using Batheer.Application.Modules.Lookups.Queries.GetFinanceTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetHealthStatuses;
+@using Batheer.Application.Modules.Lookups.Queries.GetLoanTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetMaritalStatuses;
+@using Batheer.Application.Modules.Lookups.Queries.GetMonthlyIncomes;
+@using Batheer.Application.Modules.Lookups.Queries.GetNationalities;
+@using Batheer.Application.Modules.Lookups.Queries.GetOccupations;
+@using Batheer.Application.Modules.Lookups.Queries.GetProducedFamilyProducts;
+@using Batheer.Application.Modules.Lookups.Queries.GetGenders;
+@using Batheer.Application.AssociationsAffiliatedWithTheCouncils.Queries.GetAssociationsAffiliatedWithTheCouncils;
+@using Batheer.Application.Reports.Queries.SearchInSupportingFamilyRequests;
+
+
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator Mediator;
+
+
+@{
+    ViewBag.GenderId = await Mediator.Send(new GetGendersQuery());
+    ViewBag.NationalityId = await Mediator.Send(new GetNationalitiesQuery());
+    ViewBag.MaritalStatusId = await Mediator.Send(new GetMaritalStatusesQuery());
+    ViewBag.EducationalLevelId = await Mediator.Send(new GetEducationalLevelsQuery());
+    ViewBag.HealthStatusId = await Mediator.Send(new GetHealthStatusesQuery());
+    ViewBag.OccupationId = await Mediator.Send(new GetOccupationsQuery());
+    ViewBag.MonthlyIncomeId = await Mediator.Send(new GetMonthlyIncomesQuery());
+    ViewBag.AssociationsAffiliatedWithTheCouncilId = await Mediator.Send(new GetAssociationsAffiliatedWithTheCouncilsQuery());
+    ViewBag.FamilyCategoryId = await Mediator.Send(new GetFamilyCategoriesQuery());
+    ViewBag.FinanceTypeId = await Mediator.Send(new GetFinanceTypesQuery());
+    ViewBag.ProducedFamilyProductId = await Mediator.Send(new GetProducedFamilyProductsQuery());
+    ViewBag.LoanTypeId = await Mediator.Send(new GetLoanTypesQuery());
+    ViewBag.EstimatedProjectCostId = await Mediator.Send(new GetEstimatedProjectCostsQuery());
+
+
+
+}
+
+@{
+    ViewData["Title"] = "الاستعلامات والتقارير" + @" / " + "البحث عن المستفيدين";
+
+
+}
+
+@{
+    var QueryResult = ViewBag.QueryResult as IEnumerable<SearchInSupportingFamilyRequestsDto>;
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h1>البحث عن المستفيدين</h1>
+                <h3>محددات البحث</h3>
+                <form method="post">
+                    <div class="row">
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FullName" class="control-label">الاسم</label>
+                            <input asp-for="FullName" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="IdentityNo" class="control-label">رقم الهوية</label>
+                            <input asp-for="IdentityNo" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="GenderId" class="control-label">الجنس</label>
+                            <select asp-for="GenderId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.GenderId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="NationalityId" class="control-label">الجنسية</label>
+                            <select asp-for="NationalityId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.NationalityId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+
+
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="Email" class="control-label">البريد الالكتروني</label>
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Mobile" class="control-label">رقم الجوال</label>
+                            <input asp-for="Mobile" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="PhoneNumber" class="control-label">رقم الهاتف</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="MaritalStatusId" class="control-label">الحالة الاجتماعية لعائل الأسرة</label>
+                            <select asp-for="MaritalStatusId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.MaritalStatusId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="EducationalLevelId" class="control-label">المستوى الدراسي لعائل الأسرة</label>
+                            <select asp-for="EducationalLevelId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.EducationalLevelId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="HealthStatusId" class="control-label">الحالة الصحية</label>
+                            <select asp-for="HealthStatusId" class="form-control" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.HealthStatusId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="OccupationId" class="control-label">المهنة</label>
+                            <select class="form-control" asp-for="OccupationId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.OccupationId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="MonthlyIncomeId" class="control-label">الدخل الشهري</label>
+                            <select asp-for="MonthlyIncomeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.MonthlyIncomeId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+
+
+
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="AssociationsAffiliatedWithTheCouncilId" class="control-label">الجمعية</label>
+                            <select asp-for="AssociationsAffiliatedWithTheCouncilId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.AssociationsAffiliatedWithTheCouncilId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FamilyCategoryId" class="control-label">تصنيف الأسرة</label>
+                            <select asp-for="FamilyCategoryId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.FamilyCategoryId, "Id", "Name"))">
+                                <option>--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="IsThereABankDefault" class="control-label"> هل يوجد تعثر لأحد البنوك؟</label>
+                            <select asp-for="IsThereABankDefault" class="form-control">
+                                <option>--الكل--</option>
+                                <option value="true">نعم</option>
+                                <option value="false">لا</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FinanceTypeId" class="control-label">نوع التمويل المرغوب</label>
+                            <select asp-for="FinanceTypeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.FinanceTypeId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="ProducedFamilyProductId" class="control-label">نوع الأسرة المنتجة</label>
+                            <select asp-for="ProducedFamilyProductId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.ProducedFamilyProductId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="DoYouHaveLoansOrOtherObligations" class="control-label">هل يوجد قروض أو التزامات؟</label>
+                            <select asp-for="DoYouHaveLoansOrOtherObligations" class="form-control">
+                                <option>--الكل--</option>
+                                <option value="true">نعم</option>
+                                <option value="false">لا</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="LoanTypeId" class="control-label">نوع القرض</label>
+                            <select asp-for="LoanTypeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.LoanTypeId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="EstimatedProjectCostId" class="control-label">التكلفة التقديرية للمشروع</label>
+                            <select asp-for="EstimatedProjectCostId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.EstimatedProjectCostId, "Id", "Name"))">
+                                <option>--الكل--</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="AreYouFreeAndReadyToWorkOnAproject" class="control-label"> متفرغ وعلى استعداد للعمل على مشروع؟</label>
+                            <select asp-for="AreYouFreeAndReadyToWorkOnAproject" class="form-control">
+                                <option>--الكل--</option>
+                                <option value="true">نعم</option>
+                                <option value="false">لا</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <input type="submit" value="بحث" class="btn btn-primary" />
+                            <input type="submit" value="تصدير إكسل" class="btn btn-primary" asp-action="SearchInSupportingFamilyRequestsExport" />
+                        </div>
+                    </div>
+                </form>
+
+
+                @if (QueryResult != null)
+                {
+
+                    <h3>نتيجة البحث</h3>
+                    <div class="row">
+                        @foreach (var item in QueryResult)
+                        {
+                            <div class="col-sm-4">
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.FullName</h5>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الاسم</div>
+                                            <div class="col">@item.FullName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">رقم الهوية</div>
+                                            <div class="col">@item.IdentityNo</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الجنس</div>
+                                            <div class="col">@item.GenderName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الجنسية</div>
+                                            <div class="col">@item.NationalityName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">البريد الالكتروني</div>
+                                            <div class="col">@item.Email</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">رقم الجوال</div>
+                                            <div class="col">@item.Mobile</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">رقم الهاتف</div>
+                                            <div class="col">@item.PhoneNumber</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الحالة الاجتماعية لعائل الأسرة</div>
+                                            <div class="col">@item.MaritalStatusName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">المستوى الدراسي لعائل الأسرة</div>
+                                            <div class="col">@item.EducationalLevelName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الحالة الصحية</div>
+                                            <div class="col">@item.HealthStatusName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">المهنة</div>
+                                            <div class="col">@item.OccupationName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الدخل الشهري</div>
+                                            <div class="col">@item.MonthlyIncomeName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">الجمعية</div>
+                                            <div class="col">@item.AssociationsAffiliatedWithTheCouncilName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">تصنيف الأسرة</div>
+                                            <div class="col">@item.FamilyCategoryName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">هل يوجد تعثر لأحد البنوك؟</div>
+                                            <div class="col">@item.IsThereABankDefault</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">نوع التمويل المرغوب</div>
+                                            <div class="col">@item.FinanceTypeName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">نوع الأسرة المنتجة</div>
+                                            <div class="col">@item.ProducedFamilyProductName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">هل يوجد قروض أو التزامات؟</div>
+                                            <div class="col">@item.DoYouHaveLoansOrOtherObligations</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">نوع القرض</div>
+                                            <div class="col">@item.LoanTypeName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">التكلفة التقديرية للمشروع</div>
+                                            <div class="col">@item.EstimatedProjectCostName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col font-weight-bold">متفرغ وعلى استعداد للعمل على مشروع؟</div>
+                                            <div class="col">
+                                                @item.AreYouFreeAndReadyToWorkOnAproject
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    if (QueryResult.Count() == 0)
+                    {
+                        <div>
+                            لا يوجد بيانات
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

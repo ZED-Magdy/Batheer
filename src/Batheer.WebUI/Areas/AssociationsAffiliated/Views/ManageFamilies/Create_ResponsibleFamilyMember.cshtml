@@ -1,0 +1,51 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+@using Batheer.Application.CouncilProjects.Queries.GetCouncilProjectById;
+@using Batheer.Application.AssociationAffiliatedProjects.Queries.GetByAssociationsAffiliatedIdAndcouncilProjectId;
+
+@{
+    ViewData["Title"] = "Create";
+
+    var CouncilProject = ViewBag.CouncilProject as CouncilProject;
+    var AssociationAffiliatedProjectId = ViewBag.CouncilProject as IEnumerable<AssociationAffiliatedProject>;
+}
+
+
+<h4>طلب تسجيل (عائلة)</h4>
+<hr />
+<div class="row">
+    <form asp-action="Create_ResponsibleFamilyMember">
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" name="CouncilProjectId" value="@CouncilProject.Id" />
+        <input type="hidden" asp-for="CouncilProjectId" />
+        <div class="form-row">
+
+            <div class="form-group col-md-12">
+                <label class="control-label">تصنيف المشروع</label>
+                <input readonly class="form-control" value="@CouncilProject.Name" />
+            </div>
+        </div>
+
+        @Html.Partial("_Create_PersonalDataForm", Model)
+        <br />
+        @Html.Partial("_Create_EducationalData", Model)
+        <br />
+        @Html.Partial("_Create_HealthStatusData", Model)
+        <br />
+
+
+
+        <div class="form-group">
+            <input type="submit" value="إنشاء الطلب" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">عودة للقائمة</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

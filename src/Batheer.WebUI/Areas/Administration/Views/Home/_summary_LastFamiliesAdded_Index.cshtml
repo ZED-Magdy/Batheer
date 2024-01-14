@@ -1,0 +1,91 @@
+﻿@using Batheer.Application.Requests.BaseRequests.Queries.GetFamiliesByCouncilId
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator _mediator;
+
+
+<cache expires-after="@TimeSpan.FromSeconds(120)">
+    آخر تحديث: @DateTime.Now
+
+    @{
+        var model = await _mediator.Send(new GetFamiliesByCouncilIdQuery(_currentUserService.CouncilId, 1, 10, GetFamiliesByCouncilIdQuery.SortOrders.Id_Desc));
+
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">آخر ثلاث أسر مضافة </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">
+                                    <svg class="icon">
+                                        <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-people"></use>
+                                    </svg>
+                                </th>
+                                <th>الأسرة</th>
+                                <th class="text-center">الهوية</th>
+                                <th>نوع الدعم المطلوب</th>
+                                <th class="text-center">تصنيف الأسرة</th>
+                                <th>تاريخ الإضافة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in model.Items.Take(3))
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="avatar">
+                                            <img class="avatar-img" src="~/UploadedFiles/ShowByObjectKey?objectKey=@item.PersonalPhotoFileObjectKey" alt="user@email.com">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>@item.FullName</div>
+                                            <div class="fs-6 fw-light">@item.CouncilName</div>
+                                        @*<div class="small text-muted"><span>New</span> | Registered: Jan 1, 2015</div>*@
+                                    </td>
+                                    <td class="text-center">
+                                        <svg class="icon icon-xl">
+                                            <use xlink:href="/themes/coreui/vendors/flag.svg#cif-@item.Nationality_ISO_CODES"></use>
+                                        </svg>
+                                        @item.IdentityNo
+                                    </td>
+                                    <td>
+
+                                        @foreach (var familyNeed in item.FamilyNeeds)
+                                        {
+                                           
+                                            <span> </span>
+                                            <span class="badge bg-success"> @familyNeed </span>
+
+                                         
+                                          
+
+                                        }
+                                       
+                                    </td>
+                                    <td class="text-center">
+                                        @item.FamilyCategory_Name
+                                     
+                                    </td>
+                                    <td>
+                                       
+                                        <strong>@item.Created.TimeAgo()</strong>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                     </div>
+            </div>
+        </div>
+
+    </div>
+
+</cache>

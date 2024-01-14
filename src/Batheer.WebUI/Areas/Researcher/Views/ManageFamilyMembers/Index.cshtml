@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Batheer.Application.FamilyMembers.Queries.GetByFamilyObjectkey.FamilyMemberDto>
+
+@using Batheer.WebUI.Utls;
+@{
+    ViewData["Title"] = "قائمة بأفراد العائلة";
+
+    var responsibleFamilyMember = ViewBag.FamilyRegistrationRequest as Batheer.Application.ResponsibleFamilyMembers.Queries.GetByFamilyObjectkey.ResponsibleFamilyMemberDto;
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+
+                <h1>@ViewData["Title"]</h1>
+
+                <hr />
+
+                <h4>
+                    معلومات عن معيل الأسرة
+                </h4>
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <label class="control-label">الاسم الرباعي</label>
+                        <input class="form-control" readonly value="@responsibleFamilyMember.FullName" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">رقم الهوية</label>
+                        <input class="form-control" readonly value="@responsibleFamilyMember.IdentityNo" />
+                    </div>
+                </div>
+
+
+                <br />
+                <p>
+
+                    <a asp-action="SearchForCreate"
+                       asp-route-familyId="@responsibleFamilyMember.FamilyId"
+                       asp-route-familyObjectkey="@responsibleFamilyMember.FamilyObjectkey"
+                       class="btn btn-outline-primary"> إنشاء فرد</a>
+                </p>
+
+                <h4>
+                    أفراد الأسرة
+                </h4>
+                <div class="row">
+
+                    <table class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الاسم كامل</th>
+                                <th>رقم الهوية</th>
+                                <th>الجنسية</th>
+                                <th>الجنس</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>#</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.IdentityNo</td>
+                                    <td>@item.NationalityName</td>
+                                    <td>@item.GenderName</td>
+                                    <td>
+
+                                        <a asp-action="Edit" asp-route-familyMemberObjectkey="@item.MemberObjectkey" class="btn btn-outline-primary">تعديل</a>
+                                        <a asp-action="Delete" asp-route-memberObjectkey="@item.MemberObjectkey" class="btn btn-outline-primary">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+﻿@model Batheer.Application.AssociationAffiliatedProjects.Queries.GetById.AssociationAffiliatedProject
+
+@{
+    var familyNeeds = ViewBag.FamilyNeeds as IEnumerable<Batheer.Application.Modules.Lookups.Queries.GetFamilyNeedsWithDetails.FamilyNeedWithDetails>;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>تعديل مشروع</h4>
+                <hr />
+                <form asp-action="Edit">
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group col-6">
+                            <label asp-for="CouncilProjectId" class="control-label">تصنيف المشروع</label>
+                            <select asp-for="CouncilProjectId" class="form-control" asp-items="ViewBag.CouncilProjectId"></select>
+                            <span asp-validation-for="CouncilProjectId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label asp-for="ProjectName" class="control-label">اسم المشروع</label>
+                            <input asp-for="ProjectName" class="form-control" />
+                            <span asp-validation-for="ProjectName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="AboutTheProject" class="control-label">عن المشروع</label>
+                            <textarea asp-for="AboutTheProject" class="form-control"></textarea>
+                            <span asp-validation-for="AboutTheProject" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Notes" class="control-label">ملاحظات</label>
+                            <textarea asp-for="Notes" class="form-control"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">نوع الدعم المقدم</label>
+
+                            <div class="row row-cols-1 row-cols-md-2 g-4">
+                                @{
+                                    int familyNeedIndex = 0;
+                                }
+                                @foreach (var item in familyNeeds)
+                                {
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                @item.Name
+                                            </div>
+                                            <div class="card-body">
+                                                @foreach (var detail in item.FamilyNeedDetails)
+                                                {
+                                                    var selected = Model.FamilyNeedDetails.Any(a => a.FamilyNeedDetailId == detail.Id);
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" name="FamilyNeedDetails" type="checkbox" value="@detail.Id"
+                                                               @(selected? "checked" : "")
+                                                               >
+                                                        <label class="form-check-label">@detail.Name</label>
+                                                    </div>
+
+                                                    familyNeedIndex++;
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="حفظ" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-default">عودة</a>
+                        </div>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>

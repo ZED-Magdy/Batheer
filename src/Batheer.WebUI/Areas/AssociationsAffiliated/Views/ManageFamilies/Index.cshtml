@@ -1,0 +1,313 @@
+﻿@model SearchInFamilyRegistrationRequestsQuery
+
+@using Batheer.Application.CouncilProjects.Queries.GetCouncilProjects;
+@using Batheer.Application.Common.Models;
+@using Batheer.Application.AssociationsAffiliatedWithTheCouncils.Queries.GetAssociationsAffiliatedWithTheCouncils;
+@using Batheer.Application.Requests.BaseRequests.Queries.SearchInFamilyRegistrationRequests;
+@using Batheer.Application.Modules.Lookups.Queries.GetAccommodationTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetEducationalLevels;
+@using Batheer.Application.Modules.Lookups.Queries.GetEstimatedProjectCosts;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyCategories;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeeds;
+@using Batheer.Application.Modules.Lookups.Queries.GetFinanceTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetHealthStatuses;
+@using Batheer.Application.Modules.Lookups.Queries.GetLoanTypes;
+@using Batheer.Application.Modules.Lookups.Queries.GetMaritalStatuses;
+@using Batheer.Application.Modules.Lookups.Queries.GetMonthlyIncomes;
+@using Batheer.Application.Modules.Lookups.Queries.GetNationalities;
+@using Batheer.Application.Modules.Lookups.Queries.GetOccupations;
+@using Batheer.Application.Modules.Lookups.Queries.GetProducedFamilyProducts;
+@using Batheer.Application.Modules.Lookups.Queries.GetGenders;
+
+
+
+@{
+    ViewBag.Title = "إدارة العائلات";
+    // var AssociationAffiliatedProjects = ViewBag.AssociationAffiliatedProjects as IEnumerable<Batheer.Application.AssociationAffiliatedProjects.Queries.GetByAssociationsAffiliatedId.AssociationAffiliatedProject>;
+    // var CouncilProjects = ViewBag.CouncilProject as IEnumerable<CouncilProject>;
+}
+
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator Mediator;
+
+
+@{
+
+    ViewBag.AccommodationTypeId = await Mediator.Send(new GetAccommodationTypesQuery());
+    ViewBag.EducationalLevelId = await Mediator.Send(new GetEducationalLevelsQuery());
+    ViewBag.EstimatedProjectCostId = await Mediator.Send(new GetEstimatedProjectCostsQuery());
+    ViewBag.FinanceTypeId = await Mediator.Send(new GetFinanceTypesQuery());
+    ViewBag.HealthStatusId = await Mediator.Send(new GetHealthStatusesQuery());
+    ViewBag.LoanTypeId = await Mediator.Send(new GetLoanTypesQuery());
+    ViewBag.MaritalStatusId = await Mediator.Send(new GetMaritalStatusesQuery());
+    ViewBag.MonthlyIncomeId = await Mediator.Send(new GetMonthlyIncomesQuery());
+    ViewBag.NationalityId = await Mediator.Send(new GetNationalitiesQuery());
+    ViewBag.OccupationId = await Mediator.Send(new GetOccupationsQuery());
+    ViewBag.ProducedFamilyProductId = await Mediator.Send(new GetProducedFamilyProductsQuery());
+    ViewBag.FamilyNeeds = await Mediator.Send(new GetFamilyNeedsQuery());
+    ViewBag.FamilyCategoryId = await Mediator.Send(new GetFamilyCategoriesQuery());
+    ViewBag.GenderId = await Mediator.Send(new GetGendersQuery());
+
+    ViewBag.FamilyNeedId = await Mediator.Send(new GetFamilyNeedsQuery());
+    ViewBag.FamilyCategoryId = await Mediator.Send(new GetFamilyCategoriesQuery());
+
+    var QueryResult = ViewBag.QueryResult as PaginatedList<SearchInFamilyRegistrationRequestsDto>;
+
+}
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+
+                <p>
+
+                    <a asp-action="SearchForCreate" class="btn btn-outline-primary"> إنشاء طلب دعم الأسر</a>
+                    <a asp-action="ExportFamilyRegistrationRequests" download target="_blank" class="btn btn-outline-primary"> تصدير إكسل- طلبات الدعم </a>
+                    <a asp-action="ExportFamilyMembers" download target="_blank" class="btn btn-outline-primary"> تصدير إكسل- أفراد الأسر </a>
+                    <a asp-action="ExportSupportingFamilyRequests" download target="_blank" class="btn btn-outline-primary"> تصدير إكسل- تمكين الأسر </a>
+
+                </p>
+
+
+                <h3>محددات البحث</h3>
+                <form method="get" asp-action="Index" novalidate>
+                    <div class="row">
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FullName" class="control-label">الاسم</label>
+                            <input asp-for="FullName" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="IdentityNo" class="control-label">رقم الهوية</label>
+                            <input asp-for="IdentityNo" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="GenderId" class="control-label">الجنس</label>
+                            <select asp-for="GenderId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.GenderId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="NationalityId" class="control-label">الجنسية</label>
+                            <select asp-for="NationalityId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.NationalityId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="AccommodationTypeId" class="control-label">نوع السكن</label>
+                            <select asp-for="AccommodationTypeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.AccommodationTypeId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="Email" class="control-label">البريد الالكتروني</label>
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Mobile" class="control-label">رقم الجوال</label>
+                            <input asp-for="Mobile" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="PhoneNumber" class="control-label">رقم الهاتف</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="MaritalStatusId" class="control-label">الحالة الاجتماعية لعائل الأسرة</label>
+                            <select asp-for="MaritalStatusId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.MaritalStatusId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="EducationalLevelId" class="control-label">المستوى الدراسي</label>
+                            <select asp-for="EducationalLevelId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.EducationalLevelId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="HealthStatusId" class="control-label">الحالة الصحية</label>
+                            <select asp-for="HealthStatusId" class="form-control" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.HealthStatusId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="OccupationId" class="control-label">المهنة</label>
+                            <select class="form-control" asp-for="OccupationId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.OccupationId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="MonthlyIncomeId" class="control-label">الدخل الشهري</label>
+                            <select asp-for="MonthlyIncomeId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.MonthlyIncomeId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FamilyNeedId" class="control-label">نوع الدعم</label>
+                            <select asp-for="FamilyNeedId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.FamilyNeedId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label asp-for="FamilyCategoryId" class="control-label">تصنيف الأسرة</label>
+                            <select asp-for="FamilyCategoryId" class="form-control"
+                                    asp-items="@(new SelectList(ViewBag.FamilyCategoryId, "Id", "Name"))">
+                                <option value="">--الكل--</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <input type="hidden" asp-for="CouncilObjectkey" value="@_currentUserService.CouncilObjectkey" />
+                            <input type="submit" value="بحث" class="btn btn-primary" />
+                            <br />
+                        </div>
+                    </div>
+                </form>
+
+                <h3>نتيجة البحث</h3>
+                <br />
+                @{
+                    if (QueryResult == null)
+                    {
+
+                    }
+                    else if (QueryResult.Items.Count == 0)
+                    {
+                        <div>لا يوجد نتائج</div>
+                    }
+                    else
+                    {
+                        <paging page-no="QueryResult.PageNumber"
+                                page-size="QueryResult.PageSize"
+                                total-records="QueryResult.TotalCount"
+                                query-string-key-page-no="PageNumber"
+                                query-string-key-page-size="pageSize"
+                                sr-text-first="الأول"
+                                sr-text-last="الآخير"
+                                sr-text-next="التالي"
+                                sr-text-previous="السابق"
+                                text-first=""
+                                text-last=""
+                                text-previous=""
+                                text-next=""
+                                show-page-size-nav="false"
+                                text-total-pages="صفحة"
+                                text-total-records="إجمالي"
+                                class-total-pages="badge badge-md bg-info"
+                                class-total-records="badge badge-md bg-dark"
+                                page-size-dropdown-items="100-500-1000">
+                        </paging>
+
+                        <div class="row">
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <th>رقم ملف الأسرة</th>
+                                        <th>تصنيف الأسرة</th>
+                                        <th>?خارج تبوك</th>
+                                        <th>الهوية</th>
+                                        <th>الاسم</th>
+                                        <th>الجنسية</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in QueryResult.Items)
+                                    {
+                                        <tr>
+                                            <td>@item.RowNumber</td>
+                                            <td>@item.FamilyId</td>
+                                            <td>@item.FamilyCategoryName</td>
+                                            <td>@(item.ResidencyAddressData_IsOutOfTabuk? "نعم" : "لا")</td>
+                                            <td>@item.IdentityNo</td>
+                                            <td>@(string.Format($"{item.FirstName} {item.FatherName} {item.GrandFatherName} {item.FamilyName}"))</td>
+                                            <td>@item.NationalityName</td>
+
+                                            <td>
+                                                <a asp-action="Details" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">تفاصيل</a> |
+                                                <a asp-action="Edit" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">تعديل</a> |
+                                                <a asp-action="index" asp-controller="ManageFamilyMembers" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">أفراد العائلة</a> |
+                                                <a asp-action="Delete" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">حذف</a> |
+
+                                                
+                                               
+
+                                                @if (item.HasSupportingFamilyRequest)
+                                                {
+                                                    <a asp-action="Details" asp-controller="ManageSupportingFamilyRequests" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">عرض تمكين أسرة</a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="Create" asp-controller="ManageSupportingFamilyRequests" asp-route-familyObjectkey="@item.FamilyObjectkey" class="btn btn-sm btn-outline-primary">إنشاء تمكين أسرة</a>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <paging page-no="QueryResult.PageNumber"
+                                page-size="QueryResult.PageSize"
+                                total-records="QueryResult.TotalCount"
+                                query-string-key-page-no="PageNumber"
+                                query-string-key-page-size="pageSize"
+                                sr-text-first="الأول"
+                                sr-text-last="الآخير"
+                                sr-text-next="التالي"
+                                sr-text-previous="السابق"
+                                text-first=""
+                                text-last=""
+                                text-previous=""
+                                text-next=""
+                                show-page-size-nav="false"
+                                text-total-pages="صفحة"
+                                text-total-records="إجمالي"
+                                class-total-pages="badge badge-md bg-info"
+                                class-total-records="badge badge-md bg-dark"
+                                page-size-dropdown-items="100-500-1000">
+                        </paging>
+
+                    }
+                }
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

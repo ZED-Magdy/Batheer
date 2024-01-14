@@ -1,0 +1,16 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "خطأ";
+}
+
+<h1 class="text-danger">خطأ.</h1>
+<h2 class="text-danger">
+   حدث خطأ أثناء تنفيذ هذه العملية، يرجى إعادة المحاولة لاحقا ، أو التواصل مع إدارة النظام    .
+</h2>
+
+@if (Model.ShowBaseRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.BaseRequestId</code>
+    </p>
+}

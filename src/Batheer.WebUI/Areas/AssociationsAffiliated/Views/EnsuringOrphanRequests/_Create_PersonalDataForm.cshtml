@@ -1,0 +1,69 @@
+﻿@model BaSaleh.Domain.AssociationAffiliatedProjects.Entities.PersonalDataForm
+
+<h4>البيانات الشخصية</h4>
+<hr />
+<div class="row">
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+            <label asp-for="FirstName" class="control-label">الاسم الأول</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="FatherName" class="control-label">اسم الأب</label>
+            <input asp-for="FatherName" class="form-control" />
+            <span asp-validation-for="FatherName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="GrandFatherName" class="control-label">اسم الجد</label>
+            <input asp-for="GrandFatherName" class="form-control" />
+            <span asp-validation-for="GrandFatherName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="FamilyName" class="control-label">اسم العائلة</label>
+            <input asp-for="FamilyName" class="form-control" />
+            <span asp-validation-for="FamilyName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="IdentityNo" class="control-label">رقم الهوية</label>
+            <input asp-for="IdentityNo" class="form-control" />
+            <span asp-validation-for="IdentityNo" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="DateOfBirth" class="control-label">تاريخ الميلاد</label>
+            <input asp-for="DateOfBirth" class="form-control" />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PlaceOfBirth" class="control-label">مكان الميلاد</label>
+            <input asp-for="PlaceOfBirth" class="form-control" />
+            <span asp-validation-for="PlaceOfBirth" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Gender" class="control-label">الجنس</label>
+            <input asp-for="Gender" class="form-control" />
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="NationalityId" class="control-label">الجنسية</label>
+            <select asp-for="NationalityId" class="form-control" asp-items="ViewBag.NationalityId"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="IdentityFilePath" class="control-label">صورة الهوية</label>
+            <input asp-for="IdentityFilePath" class="form-control" />
+            <span asp-validation-for="IdentityFilePath" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PersonalPhotoFilePath" class="control-label">صورة شخصية</label>
+            <input asp-for="PersonalPhotoFilePath" class="form-control" />
+            <span asp-validation-for="PersonalPhotoFilePath" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

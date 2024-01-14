@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Batheer.Application.AssociationAffiliatedProjects.Queries.GetByAssociationsAffiliatedId.AssociationAffiliatedProject>
+
+@using Batheer.WebUI.Utls;
+@{
+    ViewBag.Title = "إدارة المشاريع";
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h1>قائمة المشروعات المقدمة</h1>
+
+                <p>
+
+                    <a asp-action="Create" class="btn btn-outline-primary"> إنشاء مشروع</a>
+
+                </p>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                تصنيف المشروع
+                            </th>
+                            <th>
+                                اسم المشروع
+                            </th>
+                            <th>
+                                نبذة عن المشروع
+                            </th>
+                            <th>
+                                ملاحظات
+                            </th>
+
+                            @*<th></th>*@
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CouncilProjectName)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProjectName)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AboutTheProject)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Notes)
+                                </td>
+
+                                @*<td>
+                                        <a asp-action="Details" asp-route-id="@item.Id">عرض الجدول الزمني</a>
+                                    </td>*@
+                                <td>
+                                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">تعديل</a> |
+                                    <a class="btn btn-outline-primary" asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

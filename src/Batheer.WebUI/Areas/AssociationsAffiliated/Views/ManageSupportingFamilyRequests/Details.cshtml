@@ -1,0 +1,142 @@
+﻿@model Batheer.Application.SupportingFamilyRequests.Queries.GetByFamilyObjectkey.SupportingFamilyRequestDto
+
+
+@{
+    ViewData["Title"] = "تفاصيل";
+    bool _readonly = true;
+
+    //var FamilyId = ViewBag.FamilyId ?? Model.FamilyId;
+    var FamilyObjectkey = ViewBag.FamilyObjectkey ?? Model.FamilyObjectkey;
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h4>تفاصيل طلب تمكين أسرة</h4>
+
+            </div>
+            <div class="card-body">
+
+
+
+
+                <h4>البنوك</h4>
+                <hr />
+
+
+                <div class="custom-control col-md-6 custom-checkbox">
+                    <input checked="@Model.IsThereABankDefault" type="checkbox" class="custom-control-input" name="BankDefaultData.IsThereABankDefault">
+                    <label class="custom-control-label">
+
+                        هل يوجد تعثر لأحد البنوك؟
+                    </label>
+                </div>
+
+
+                <h4>بيانات التمويل</h4>
+                <hr />
+                <div class="form-group col-md-6">
+                    <label class="control-label">ما نوع التمويل الذي ترغب به؟</label>
+                    <input value="@Model.FinanceTypeName" readonly class="form-control" />
+
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">
+                        إذا الاختيار أسر منتجة اختر من القائمة التالية:
+                    </label>
+                    <input value="@Model.ProducedFamilyProductName" readonly class="form-control" />
+
+                </div>
+
+
+
+                <h4>بيانات القروض</h4>
+                <hr />
+
+                <div class="custom-control col-md-6 custom-checkbox">
+                    <input checked="@Model.DoYouHaveLoansOrOtherObligations" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label">
+
+                        هل لديك قروض أو التزامات أخرى؟
+                    </label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">أخرى</label>
+                    <input value="@Model.LoanData_Others" readonly class="form-control" />
+                </div>
+
+                @*<div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="LoanData.AreYouABeneficiaryOfSocialSecurity" /> @Html.DisplayNameFor(model => model.AreYouABeneficiaryOfSocialSecurity)
+                        </label>
+                    </div>*@
+                <div class="form-group col-md-6">
+                    <label class="control-label">ما نوع القرض</label>
+                    <input value="@Model.LoanTypeName" readonly class="form-control" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">تفصيل القرض</label>
+                    <input value="@Model.LoanData_Description" readonly class="form-control" />
+                </div>
+
+
+
+
+                <h4>بيانات المشروع</h4>
+                <hr />
+                <div class="form-group col-md-6">
+                    <label class="control-label">التكلفة التقديرية للمشروع</label>
+                    <input value="@Model.EstimatedProjectCostName" readonly class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">أخرى</label>
+                    <input value="@Model.ProjectData_Others" readonly class="form-control" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="control-label">نبذة عن المشروع</label>
+                    <input value="@Model.AboutTheProject" readonly class="form-control" />
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="control-label">ما العوائق التي تقابل المشروع؟</label>
+                    <textarea value="@Model.WhatAreTheObstaclesFacingTheProject" class="form-control"></textarea>
+                </div>
+
+
+
+                <h4>العمل على مشروع</h4>
+                <hr />
+
+                <div class="custom-control col-md-6 custom-checkbox">
+                    <input checked="@Model.AreYouFreeAndReadyToWorkOnAproject" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label">
+                        هل أنت متفرغ وعلى استعداد للعمل على مشروع؟
+                    </label>
+                </div>
+
+
+                @*<div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="WorkOnAProjectData.AreYouFreeAndReadyToWorkOnAproject" /> @Html.DisplayNameFor(model => model.AreYouFreeAndReadyToWorkOnAproject)
+                        </label>
+                    </div>*@
+
+
+
+                <div>
+                    <a asp-action="Index" asp-controller="ManageFamilies">عودة للقائمة</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

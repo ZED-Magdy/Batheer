@@ -1,0 +1,64 @@
+﻿@Html.Partial("index")
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="container">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="min-width:600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="text-center">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <div>تدشين منصة باذر</div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="text-center">
+                        <img src="~/prince_fahad.jpg" class="img-thumbnail" width="500" />
+
+                        <h4> برعاية صاحب السمو الملكي </h4>
+                        <h3>
+                            الأمير فهد بن سلطان بن عبد العزيز
+                        </h3>
+                        <h4>  أمير منطقة تبوك حفظه الله</h4>
+
+                        <a href="/" class="btn btn-outline-success" style="width:100px">إبدأ</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+
+        //$(document).ready(function () {
+        //    $('#exampleModal').on('shown.bs.modal', function () {
+        //        $('#myInput').trigger('focus')
+        //    })
+        //})
+
+
+        $(window).on('load', function () {
+            $('#exampleModal').modal('show');
+        });
+    </script>
+}

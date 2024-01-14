@@ -1,0 +1,89 @@
+﻿@model SaveVisitingFamilyMemberResultCommand
+@using Batheer.Application.VisitingFamilyMemberResults.Commands.SaveVisitingFamilyMemberResult;
+@using Batheer.Application.VisitingFamilyMemberResults.Queries.GetVisitingFamilyMemberResultsByUser;
+@inject MediatR.IMediator Mediator;
+
+
+@{
+    var familyMember = ViewBag.Item as Batheer.Application.FamilyMembers.Queries.GetFamilyMemberByObjectkey.FamilyMemberDto;
+
+
+    var SelectListItems = new SelectListItem[] { new SelectListItem("نعم", "true"), new SelectListItem("لا", "false") };
+
+    var VisitingFamilyMemberResult = await Mediator.Send(new GetVisitingFamilyMemberResultsByUserQuery(familyMember.Objectkey));
+
+    string DidYouVisitTheFamilyMember = string.Empty;
+    string IsDeserveSupport = string.Empty;
+    if (VisitingFamilyMemberResult is null)
+    {
+        VisitingFamilyMemberResult = new VisitingFamilyMemberResultDto();
+    }
+    else
+    {
+        DidYouVisitTheFamilyMember = VisitingFamilyMemberResult?.DidYouVisitTheFamilyMember.ToString().ToLower();
+        IsDeserveSupport = VisitingFamilyMemberResult?.IsDeserveSupport.ToString().ToLower();
+
+    }
+    var VisitingFamilyMemberResultId = VisitingFamilyMemberResult?.Id;
+
+
+
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4>
+                    تقرير الباحث
+                </h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="VisitingFamilyMemberResult"
+                      asp-route-familyMemberObjectkey="@familyMember.Objectkey">
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    <input asp-for="FamilyMemberObjectkey" type="hidden" value="@familyMember.Objectkey" />
+                    <input asp-for="VisitingFamilyMemberResultId" type="hidden" value="@VisitingFamilyMemberResultId" />
+
+
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="DidYouVisitTheFamilyMember" class="control-label">هل قمت بزيارة المستفيد (التابع/فرد العائلة)؟</label>
+                            <select asp-for="DidYouVisitTheFamilyMember" class="form-control" required
+                                    asp-items="@(new SelectList(SelectListItems,"Value", "Text",DidYouVisitTheFamilyMember))">
+                                <option selected disabled value="">--الرجاء الاختيار--</option>
+                            </select>
+                            <span asp-validation-for="DidYouVisitTheFamilyMember" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label asp-for="GeneralNots" class="control-label">ملاحظة عامة</label>
+                            <textarea name="@Html.NameFor(m=>m.GeneralNots)" class="form-control">@VisitingFamilyMemberResult.GeneralNots</textarea>
+                            <span asp-validation-for="GeneralNots" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="IsDeserveSupport" class="control-label">هل المستفيد (التابع/فرد العائلة) مستحق للدعم</label>
+                            <select asp-for="IsDeserveSupport" class="form-control" required
+                                    asp-items="@(new SelectList(SelectListItems,"Value", "Text",IsDeserveSupport))">
+                                <option selected disabled value="">--الرجاء الاختيار--</option>
+                            </select>
+                            <span asp-validation-for="IsDeserveSupport" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label asp-for="WhyNoDeserveSupport" class="control-label">السبب عند الإجابة بـ لا</label>
+                            <textarea name="@Html.NameFor(m=>m.WhyNoDeserveSupport)" class="form-control">@VisitingFamilyMemberResult.WhyNoDeserveSupport</textarea>
+                            <span asp-validation-for="WhyNoDeserveSupport" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="submit" value="حفظ" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

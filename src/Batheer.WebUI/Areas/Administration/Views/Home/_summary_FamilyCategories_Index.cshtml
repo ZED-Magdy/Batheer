@@ -1,0 +1,80 @@
+﻿@using Batheer.Application.Summaries.Queries.GetFamilyCategoriesCount
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator _mediator;
+
+
+<cache expires-after="@TimeSpan.FromSeconds(120)">
+    آخر تحديث: @DateTime.Now
+
+    @{
+
+        var result = await _mediator.Send(new GetFamilyCategoriesCountQuery(null));
+    }
+
+    <div class="row">
+        <div class="col-6 col-lg-3">
+    <div class="card overflow-hidden">
+      <div class="card-body p-0 d-flex align-items-center">
+        <div class="bg-primary text-white py-4 px-5 me-3">
+          <svg class="icon icon-xl">
+            <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-settings"></use>
+          </svg>
+        </div>
+        <div>
+          <div class="fs-6 fw-semibold text-primary">@result[0].Value</div>
+          <div class="text-medium-emphasis text-uppercase fw-semibold small">أرملة</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="col-6 col-lg-3">
+    <div class="card overflow-hidden">
+      <div class="card-body p-0 d-flex align-items-center">
+        <div class="bg-info text-white py-4 px-5 me-3">
+          <svg class="icon icon-xl">
+            <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-laptop"></use>
+          </svg>
+        </div>
+        <div>
+          <div class="fs-6 fw-semibold text-info">@result[1].Value</div>
+          <div class="text-medium-emphasis text-uppercase fw-semibold small">مطلقة</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        <div class="col-6 col-lg-3">
+    <div class="card overflow-hidden">
+      <div class="card-body p-0 d-flex align-items-center">
+        <div class="bg-warning text-white py-4 px-5 me-3">
+          <svg class="icon icon-xl">
+            <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-moon"></use>
+          </svg>
+        </div>
+        <div>
+          <div class="fs-6 fw-semibold text-warning">@result[2].Value</div>
+          <div class="text-medium-emphasis text-uppercase fw-semibold small">فقيرة</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        <div class="col-6 col-lg-3">
+    <div class="card overflow-hidden">
+      <div class="card-body p-0 d-flex align-items-center">
+        <div class="bg-danger text-white py-4 px-5 me-3">
+          <svg class="icon icon-xl">
+            <use xlink:href="/themes/coreui/assets/icons/sprites/free.svg#cil-bell"></use>
+          </svg>
+        </div>
+        <div>
+          <div class="fs-6 fw-semibold text-danger">@result[3].Value</div>
+          <div class="text-medium-emphasis text-uppercase fw-semibold small">يتيم</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </div>
+</cache>

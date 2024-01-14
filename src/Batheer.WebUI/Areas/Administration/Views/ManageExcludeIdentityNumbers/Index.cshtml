@@ -1,0 +1,30 @@
+﻿@using Batheer.Application.ExcludeIdentityNumbers.Queries.GetExcludeIdentityNumbers;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeedsWithDetails
+@inject MediatR.IMediator Mediator;
+@using Batheer.WebUI.Utls;
+
+
+@{
+    ViewData["Title"] = "إدارة أرقام الهويات المستبعدة";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h1>  إدارة أرقام الهويات المستبعدة</h1>
+                <hr />
+
+                <partial name="_Create" model="null" />
+                <hr />
+
+
+                <partial name="_List" model="null" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,21 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>بيانات تصنيف الأسرة</h4>
+<hr />
+<div class="row">
+    <div class="form-group col-md-6">
+        <label asp-for="FamilyCategoryData.FamilyCategoryId" class="control-label">تصنيف الأسرة</label>
+        <select asp-for="FamilyCategoryData.FamilyCategoryId" class="form-control" required
+                asp-items="@(new SelectList(ViewBag.FamilyCategoryId, "Id", "Name"))">
+            <option selected disabled value="">--الرجاء الاختيار--</option>
+        </select>
+        <span asp-validation-for="FamilyCategoryData.FamilyCategoryId" class="text-danger"></span>
+       
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

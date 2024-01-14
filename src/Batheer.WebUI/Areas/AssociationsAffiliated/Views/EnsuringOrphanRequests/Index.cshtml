@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BaSaleh.Domain.AssociationAffiliatedProjects.EnsuringOrphanRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@*قائمة طلبات تسجيل كفالة يتيم*@</h1>
+
+<h1>@*قائمة طلبات تسجيل  تمكين الأسر (الأسر المنتجة)*@ </h1>
+<h1>قائمة طلبات تسجيل  دعم الأسر </h1>
+<p>
+    <a asp-action="Create">إنشاء طلب</a>
+</p>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        حالة الطلب :
+                        @item.RequestStatus.Name
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        الاسم :
+
+                        @string.Format(item.PersonalDataForm.FirstName + " " + item.PersonalDataForm.FatherName + " " + item.PersonalDataForm.GrandFatherName + " " + item.PersonalDataForm.FamilyName)
+                    </h6>
+                    <p class="card-text">نص نص نص نص نص نص نص نص نص نص نص .</p>
+                    <a href="#" class="card-link">تفاصيل الطلب</a>
+                    <a href="#" class="card-link">الإجراء على الطلب </a>
+                </div>
+            </div>
+            <br />
+        </div>
+    }
+
+
+</div>

@@ -1,0 +1,162 @@
+﻿@model Batheer.Application.TargetedSchedulingForProjectImplementations.Queries.GetById.TargetedSchedulingForProjectImplementation
+
+@using Batheer.Application.TheIntendedBeneficiaries.Queries.GetAssignedByTargetedSchedulingForProjectImplementationId;
+@using Batheer.Application.TheIntendedBeneficiaries.Queries.GetUnAssignedByTargetedSchedulingForProjectImplementationId;
+
+@{
+
+    var AssignedItems = ViewBag.Assigned as IEnumerable<AssignedToTargetedSchedulingForProjectImplementation>;
+    var UnAssignedItems = ViewBag.UnAssigned as IEnumerable<UnAssignedToTargetedSchedulingForProjectImplementation>;
+
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4>العوائل المستهدفة من  المشروع</h4>
+                <hr />
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="CouncilProjectName" class="control-label">تصنيف المشروع</label>
+                            <input asp-for="CouncilProjectName" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label asp-for="AssociationsAffiliatedWithTheCouncilName" class="control-label">اسم المشروع</label>
+                            <input asp-for="AssociationsAffiliatedWithTheCouncilName" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FromDate" class="control-label">من تاريخ</label>
+                            <input value="@Model.FromDate.ToString("yyyy/MM/dd")" readonly class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ToDate" class="control-label">إلى تاريخ</label>
+                            <input value="@Model.ToDate.ToString("yyyy/MM/dd")" readonly class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label asp-for="TargetedSchedulingForProjectImplementationStatusName" class="control-label">حالة المشروع</label>
+                            <input asp-for="TargetedSchedulingForProjectImplementationStatusName" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="control-label">نوع الدعم المقدم</label>
+                        <h4>
+                            @foreach (var familyNeed in Model.FamilyNeedDetails)
+                            {
+                                <span class="badge rounded-pill bg-primary">@familyNeed.Name</span>
+                            }
+                        </h4>
+                    </div>
+
+
+
+                    <div class="form-group col-md-12">
+
+
+
+                        <a asp-area="Administration" asp-controller="AssociationAffiliatedProjects"
+                           asp-action="Index"
+                           class="btn btn-default">عودة</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    العوائل المستهدفة
+                </h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم</th>
+                        </tr>
+                    </thead>
+                    @{
+                        int AssignedItems_index = 1;
+                    }
+                    @foreach (var item in AssignedItems.OrderByDescending(o => o.DeliveryStatusName))
+                    {
+                        <tr>
+                            <td>
+                                @AssignedItems_index
+                            </td>
+                            <td>
+                                @item.FullName
+                                <small>@item.IdentityNo</small>
+                                <div class="badge bg-success float-right">@item.DeliveryStatusName</div>
+                                <div class="badge bg-warning float-right">@item.SmsSentStatusName</div>
+                            </td>
+
+                        </tr>
+                        AssignedItems_index++;
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h5>
+                    العوائل غير المستهدفة
+                </h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم</th>
+                        </tr>
+                    </thead>
+                    @{
+                        int UnAssignedItems_index = 1;
+                    }
+                    @foreach (var item in UnAssignedItems)
+                    {
+
+                        <tr>
+                            <td>
+                                @UnAssignedItems_index
+                            </td>
+                            <td>
+                                @item.FullName
+
+                                <small>@item.IdentityNo</small>
+                            </td>
+
+                        </tr>
+                        UnAssignedItems_index++;
+                    }
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

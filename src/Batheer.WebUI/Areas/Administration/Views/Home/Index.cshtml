@@ -1,0 +1,153 @@
+﻿@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+<partial name="_summary_Requests_Index.cshtml" />
+<br>
+<partial name="_summary_FamilyCategories_Index.cshtml" />
+<br>
+
+<partial name="_summary_LastFamiliesAdded_Index.cshtml" />
+<br>
+
+@using Batheer.Application.Summaries.Queries.GetTargetedSchedulingStatusesCount;
+@using Batheer.Application.Summaries.Queries.GetProjectsProgress;
+@using Batheer.Application.Summaries.Queries.GetLastFamiliesReceived;
+@inject Batheer.Application.Common.Interfaces.ICurrentUserService _currentUserService
+@inject MediatR.IMediator _mediator;
+
+
+
+<cache expires-after="@TimeSpan.FromSeconds(120)" enabled="false">
+    آخر تحديث: @DateTime.Now
+
+
+    @{
+        var statusesCount = await _mediator.Send(new GetTargetedSchedulingStatusesCountQuery(null));
+        var projectsProgress = await _mediator.Send(new GetProjectsProgressQuery(null));
+        var lastFamiliesReceived = await _mediator.Send(new GetLastFamiliesReceivedQuery(null));
+    }
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">حالة المشاريع المسجلة</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="callout callout-info">
+                                        <small class="text-muted">جديد</small>
+                                        <div class="text-value-lg">
+                                            @statusesCount[0].Value
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="callout callout-danger">
+                                        <small class="text-muted">قائمة العوائل المستهدفة معتمدة</small>
+                                        <div class="text-value-lg">  @statusesCount[1].Value</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr class="mt-0">
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="callout callout-warning">
+                                        <small class="text-muted">تم التنفيذ</small>
+                                        <div class="text-value-lg">  @statusesCount[2].Value</div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <hr class="mt-0">
+                        </div>
+
+                        <div class="col-sm-6">
+                            <p>حالة المشاريع</p>
+                            <div class="progress-group">
+                                @foreach (var item in projectsProgress)
+                                {
+                                    <div class="progress-group-header align-items-end">
+                                        <svg class="icon progress-group-icon">
+                                            <use xlink:href="/themes/coreui/vendors/brand.svg#cib-google"></use>
+                                        </svg>
+                                        <div>@item.Title
+                                         <small>(@item.TheCouncilName)</small>
+                                        </div>
+                                        <div class="mfs-auto font-weight-bold mfe-2">@item.Value</div>
+                                        <div class="text-muted small">(@item.Progres%)</div>
+                                    </div>
+                                    <div class="progress-group-bars">
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: @item.Progres%" aria-valuenow="@item.Progres" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>آخر أسر استلمت</p>
+                            <table class="table table-responsive-sm table-hover table-outline mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center">
+                                            <svg class="icon">
+                                                <use xlink:href="/themes/coreui/assets/icons/free.svg#cil-people"></use>
+                                            </svg>
+                                        </th>
+                                        <th>الأسرة</th>
+                                        <th class="text-center">الهوية</th>
+                                        <th>تاريخ الاستلام</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in lastFamiliesReceived)
+                                    {
+                                        <tr>
+                                            <td class="text-center">
+                                                <div class="avatar">
+                                                    <img class="avatar-img" src="~/UploadedFiles/ShowByObjectKey?objectKey=@item.PersonalPhotoFileObjectKey" alt="user@email.com">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>@item.FullName</div>
+                                            </td>
+                                            <td class="text-center">
+                                                <svg class="icon c-icon-xl">
+                                                    <use xlink:href="/themes/coreui/vendors/flag.svg#cif-@item.Nationality_ISO_CODES"></use>
+                                                </svg>
+                                                @item.IdentityNo
+                                            </td>
+
+                                            <td>
+                                                <strong>@item.ReceivedDate.TimeAgo()</strong>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</cache>

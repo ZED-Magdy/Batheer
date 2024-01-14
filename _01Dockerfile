@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/sdk:5.0
+
+WORKDIR /app
+EXPOSE 80
+
+COPY . .
+RUN dotnet restore
+RUN dotnet build
+WORKDIR /app/src/Batheer.WebUI
+RUN mkdir -p Keys
+#RUN echo "$PWD"
+ENTRYPOINT dotnet run

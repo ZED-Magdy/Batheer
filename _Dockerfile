@@ -1,0 +1,25 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /src
+COPY ["src/Batheer.WebUI/Batheer.WebUI.csproj", "Batheer.WebUI/"]
+COPY ["src/Batheer.Application/Batheer.Application.csproj", "Batheer.Application/"]
+COPY ["src/Batheer.Domain/Batheer.Domain.csproj", "Batheer.Domain/"]
+COPY ["src/Batheer.DataMigration/Batheer.DataMigration.csproj", "Batheer.DataMigration/"]
+COPY ["src/Batheer.Infrastructure/Batheer.Infrastructure.csproj", "Batheer.Infrastructure/"]
+RUN dotnet restore --disable-parallel "Batheer.WebUI/Batheer.WebUI.csproj"
+COPY . .
+WORKDIR "/src/Batheer"
+RUN dotnet build "Batheer.WebUI.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Batheer.WebUI.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Batheer.WebUI.dll"]

@@ -1,0 +1,100 @@
+﻿@using Batheer.Application.AssociationsAffiliatedWithTheCouncils.Queries.GetAssociationsAffiliatedWithTheCouncils;
+@using Batheer.Application.Common.Interfaces;
+@using Batheer.Application.ExcludeIdentityNumbers.Queries.GetExcludeIdentityNumbers;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeedsWithDetails
+@inject MediatR.IMediator Mediator;
+@inject ICurrentUserService _currentUserService;
+@using Batheer.WebUI.Utls;
+
+
+@{
+    var Search_AssociationsAffiliatedWithTheCouncilId = _currentUserService.CouncilId;
+    var Search_IdentityNo = ViewBag.Search_IdentityNo;
+
+    var Items = await Mediator.Send(new GetExcludeIdentityNumbersQuery()
+            {
+                IdentityNo = Search_IdentityNo,
+                AssociationsAffiliatedWithTheCouncilId = Search_AssociationsAffiliatedWithTheCouncilId
+            });
+
+}
+
+
+
+
+<div class="col-lg-12">
+
+    <div class="row">
+        <h3>محددات البحث</h3>
+        <form method="post">
+            <div class="row">
+
+                <div class="form-group col-md-5">
+                    <label class="control-label">رقم الهوية</label>
+                    <input name="Search_IdentityNo" class="form-control" value="@Search_IdentityNo" />
+                </div>
+
+                <div class="form-group col-md-2">
+                    <br />
+                    <input type="submit" value="بحث" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    رقم الهوية
+                </th>
+
+                <th>
+                    ملاحظات
+                </th>
+                <th>اسم الجمعية</th>
+                <th>الاسم</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdentityNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CouncilName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+
+                    <td>
+                        @if (item.IsFamilyMember)
+                        {
+                            <span>فرد بعائلة</span>
+                        }
+                        else
+                        {
+                            <span>عائل أسرة</span>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

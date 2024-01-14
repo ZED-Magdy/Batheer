@@ -1,0 +1,39 @@
+﻿@model Batheer.Application.Modules.Lookups.Commands.FamilyNeedDetails.CreateFamilyNeedDetail.CreateFamilyNeedDetailCommand
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>إنشاء نوع الدعم مقدم </h4>
+                <hr />
+                <div class="col-md-4">
+                    <form asp-action="CreateDetails">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="FamilyNeedId" class="control-label">نوع الدعم</label>
+                            <select asp-for="FamilyNeedId" required class="form-control" 
+                                    asp-items="@(new SelectList(ViewBag.FamilyNeeds, "Id", "Name"))"
+                                    >
+                                <option disabled selected value="">
+                                    --الرجاء الاختيار--
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">اسم نوع الدعم المقدم</label>
+                            <input asp-for="Name" class="form-control" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="submit" value="حفظ" class="btn btn-primary" />
+
+                            <a asp-action="Index" class="btn btn-default">عودة</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

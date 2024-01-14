@@ -1,0 +1,14 @@
+﻿@model Batheer.Application.Families.Queries.GetByObjectkey.FamilyDetailsDto
+
+@{
+    Layout = "/Views/Shared/_AuthenticatedUser_Layout.cshtml";
+    ViewBag.SystemName = "مجلس الجمعيات الأهلية";
+
+    ViewData["Title"] = "Details";
+    bool _readonly = true;
+    //var AssociationAffiliatedProjectId = ViewBag.CouncilProject as IEnumerable<AssociationAffiliatedProject>;
+}
+
+
+
+<partial name="_Details" model="Model" />

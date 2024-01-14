@@ -1,0 +1,411 @@
+﻿@model Batheer.Application.Families.Queries.GetByObjectkey.FamilyDetailsDto
+
+@{
+    ViewData["Title"] = "Details";
+    bool _readonly = true;
+    //var AssociationAffiliatedProjectId = ViewBag.CouncilProject as IEnumerable<AssociationAffiliatedProject>;
+}
+
+
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h4>تفاصيل طلب تسجيل عائلة</h4>
+
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label">تصنيف المشروع</label>
+                        <input readonly class="form-control" asp-for="CouncilProjectName" asp-is-readonly="_readonly" />
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            معلومات عن الطلب
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <h4>بيانات نوع الدعم</h4>
+                        <hr />
+                        <div class="row">
+
+
+                            <div class="form-group col-md-6">
+                                <label class="control-label">نوع الدعم</label>
+                                <br />
+
+                                @foreach (var item in Model.FamilyNeeds)
+                                {
+                                    <input checked type="checkbox" readonly class="form-control-md" />
+
+                                    @item.Name
+                                }
+
+
+                            </div>
+                            <br />
+                            <div class="custom-file col-md-6">
+                                <label class="control-label">كرت العائلة</label>
+                                <img src="~/UploadedFiles/ShowByObjectKey?objectKey=@Model.FamilyIdentityCardFileObjectKey"
+                                     class="img img-thumbnail" />
+                            </div>
+
+                        </div>
+
+                        <br />
+                        <h4>بيانات تصنيف الأسرة</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label">تصنيف الأسرة</label>
+                                <input type="text" asp-for="FamilyCategoryName" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            عائل الأسرة
+                        </h4>
+                    </div>
+                    <div class="card-body">
+
+                        <h4>البيانات الشخصية</h4>
+                        <hr />
+                        <div class="row">
+
+                            <div class="form-group col-md-6">
+                                <label class="control-label">الاسم الأول</label>
+                                <input asp-for="FirstName" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">اسم الأب</label>
+                                <input asp-for="FatherName" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">اسم الجد</label>
+                                <input asp-for="GrandFatherName" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">اسم العائلة</label>
+                                <input asp-for="FamilyName" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">رقم الهوية</label>
+                                <input asp-for="IdentityNo" class="form-control" readonly maxlength="10" minlength="10" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">تاريخ الميلاد</label>
+                                <input asp-for="DateOfBirth" class="form-control" type="date" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">مكان الميلاد</label>
+                                <input asp-for="PlaceOfBirth" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">الجنس</label>
+                                <input asp-for="GenderName" class="form-control" asp-is-readonly="_readonly" />
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">الجنسية</label>
+                                <input asp-for="NationalityName" class="form-control" asp-is-readonly="_readonly" />
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">
+                                    صورة الهوية
+                                </label>
+                                @*<input asp-for="IdentityFilePath" class="form-control" asp-is-readonly="_readonly" />*@
+                                @*<a asp-controller="UploadedFiles" asp-action="ShowByObjectKey" asp-area="" asp-route-objectKey="@Model.IdentityFileObjectKey" target="_blank">عرض</a>*@
+                                <img src="~/UploadedFiles/ShowByObjectKey?objectKey=@Model.IdentityFileObjectKey"
+                                     class="img img-thumbnail" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">صورة شخصية</label>
+                                <img src="~/UploadedFiles/ShowByObjectKey?objectKey=@Model.PersonalPhotoFileObjectKey"
+                                     class="img img-thumbnail" />
+                                @*<a asp-controller="UploadedFiles" asp-action="ShowByObjectKey" asp-area="" asp-route-objectKey="@Model.PersonalPhotoFileObjectKey" target="_blank">عرض</a>*@
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <h4>البيانات التعليمية</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label">المستوى الدراسي</label>
+                                <input asp-for="EducationalLevelName" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+
+
+                            @*@Html.Partial("_Create_PersonalDataForm", Model)
+                            <br />
+                            @Html.Partial("_Create_EducationalData", Model)
+                            <br />
+                            @Html.Partial("_Create_HealthStatusData", Model)
+                            <br />
+
+                            @Html.Partial("_Create_OccupationData", Model)
+                            <br />
+
+                            @Html.Partial("_Create_MaritalStatusData", Model)
+                            <br />*@
+
+                        </div>
+
+                        <h4>بيانات الحالة الصحية</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label">الحالة الصحية</label>
+                                <input asp-for="HealthStatusName" class="form-control" asp-is-readonly="_readonly" />
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">أخرى</label>
+                                <input asp-for="HealthStatus_Others" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="HealthStatus_Description" class="control-label">نوع المرض أو الإعاقة إن وجد</label>
+                                <input asp-for="HealthStatus_Description" class="form-control" readonly="readonly" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            بيانات أفراد العائلة
+                        </h4>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>الاسم كامل</th>
+                                    <th>رقم الهوية</th>
+                                    <th>الجنسية</th>
+                                    <th>الجنس</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.FamilyMembers)
+                                {
+                                    <tr>
+                                        <td>#</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.IdentityNo</td>
+                                        <td>@item.NationalityName</td>
+                                        <td>@item.GenderName</td>
+                                        <td>
+
+                                            <a target="_blank" asp-action="Details" asp-controller="ManageFamilyMembers" asp-route-memberObjectkey="@item.Objectkey" class="btn btn-outline-primary">تفاصيل</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+                <br />
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            معلومات عن الأسرة
+                        </h4>
+                    </div>
+                    <div class="card-body">
+
+
+                        <h4>بيانات التواصل</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="form-row">
+
+
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ContactInformation_Email" class="control-label">البريد الالكتروني</label>
+                                    <input asp-for="ContactInformation_Email" class="form-control" type="email" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ContactInformation_Mobile" class="control-label">رقم الجوال</label>
+                                    <input asp-for="ContactInformation_Mobile" class="form-control" placeholder="05xxxxxxxx" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ContactInformation_PhoneNumber" class="control-label">رقم الهاتف</label>
+                                    <input asp-for="ContactInformation_PhoneNumber" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ContactInformation_Facebook" class="control-label">فيسبوك</label>
+                                    <input asp-for="ContactInformation_Facebook" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ContactInformation_Twitter" class="control-label">تويتر</label>
+                                    <input asp-for="ContactInformation_Twitter" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ContactInformation_Instagram" class="control-label">انستجرام</label>
+                                    <input asp-for="ContactInformation_Instagram" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label asp-for="ContactInformation_Others" class="control-label">أخرى</label>
+                                    <textarea asp-for="ContactInformation_Others" class="form-control" readonly="readonly"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <br />
+                        <h4>عنوان الإقامة</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="form-row">
+
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ResidencyAddressData_IsOutOfTabuk" class="control-label">خارج  تبوك</label>
+                                    <select asp-for="ResidencyAddressData_IsOutOfTabuk" class="form-control" readonly="readonly">
+                                        <option value="true">نعم</option>
+                                        <option value="false">لا</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ResidencyAddressData_Province" class="control-label">المحافظة</label>
+                                    <input asp-for="ResidencyAddressData_Province" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ResidencyAddressData_District" class="control-label">الحي</label>
+                                    <input asp-for="ResidencyAddressData_District" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ResidencyAddressData_Street" class="control-label">الشارع</label>
+                                    <input asp-for="ResidencyAddressData_Street" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="ResidencyAddressData_Others" class="control-label">أخرى</label>
+                                    <input asp-for="ResidencyAddressData_Others" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label asp-for="ResidencyAddressData_LocationOnTheMap" class="control-label">الموقع على الخارطة</label>
+                                    <input asp-for="ResidencyAddressData_LocationOnTheMap" class="form-control" asp-is-readonly="_readonly" />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div id="map" style="height:400px"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+
+                        <h4>بيانات السكن</h4>
+                        <hr />
+                        <div class="row">
+
+
+                            <div class="form-group col-md-6">
+                                <label asp-for="AccommodationData_AccommodationTypeName" class="control-label">نوع السكن</label>
+                                <input asp-for="AccommodationData_AccommodationTypeName" class="form-control" asp-is-readonly="_readonly" />
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="AccommodationData_Others" class="control-label">أخرى</label>
+                                <input asp-for="AccommodationData_Others" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                        </div>
+
+
+                        <br>
+                        <h4>البيانات المالية</h4>
+                        <hr />
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="MonthlyIncomeData_MonthlyIncomeName" class="control-label">الدخل الشهري</label>
+                                <input asp-for="MonthlyIncomeData_MonthlyIncomeName" class="form-control" asp-is-readonly="_readonly" />
+
+                            </div>
+                        </div>
+
+                        <br />
+                        <h4>بيانات الضمان الاجتماعي</h4>
+                        <hr />
+                        <div class="row">
+
+                            <div class="custom-control col-md-6 custom-checkbox">
+                                <input asp-for="SocialSecurityData_AreYouABeneficiaryOfSocialSecurity" type="checkbox" class="custom-control-input" asp-is-readonly="_readonly">
+                                <label class="custom-control-label" asp-for="SocialSecurityData_AreYouABeneficiaryOfSocialSecurity">هل أنت من مستفيدي الضمان الاجتماعي</label>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label asp-for="SocialSecurityData_Description" class="control-label">اسم الجمعية المسجل فيها إن وجد</label>
+                                <input asp-for="SocialSecurityData_Description" class="form-control" asp-is-readonly="_readonly" />
+                            </div>
+                        </div>
+
+                        @*<br />
+                        @Html.Partial("_Create_ContactInformation", Model)
+                        <br />
+                        @Html.Partial("_Create_ResidencyAddressData", Model)
+                        <br />
+                        @Html.Partial("_Create_AccommodationData", Model)
+                        <br />
+                        @Html.Partial("_Create_MonthlyIncomeData", Model)
+                        <br />
+                        @Html.Partial("_Create_SocialSecurityData", Model)*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        var mapValues = @Html.Raw(Json.Serialize(Model.GoogleMapValuesDto));
+        mapValues.marker.draggable = false;
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7QLvA1Pp13qt8XC59in3_fQxWju58WNs&callback=initMap&v=weekly"
+            defer></script>
+}
+
+@section HeaderScripts {
+    <script src="/app/js/googleMapHelper.js"></script>
+
+}

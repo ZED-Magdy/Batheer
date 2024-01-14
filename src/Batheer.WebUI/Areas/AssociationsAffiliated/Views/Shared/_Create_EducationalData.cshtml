@@ -1,0 +1,19 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+<h4>البيانات التعليمية</h4>
+<hr />
+<div class="row">
+    <div class="form-group col-md-6">
+        <label asp-for="EducationalData.EducationalLevelId" class="control-label">المستوى الدراسي</label>
+        <select asp-for="EducationalData.EducationalLevelId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.EducationalLevelId, "Id", "Name"))" required>
+            <option selected disabled value="">--الرجاء الاختيار--</option>
+        </select>
+        <span asp-validation-for="EducationalData.EducationalLevelId" class="text-danger"></span>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

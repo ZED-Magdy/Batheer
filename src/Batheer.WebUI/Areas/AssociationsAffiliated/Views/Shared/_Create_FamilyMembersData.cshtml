@@ -1,0 +1,44 @@
+﻿@model Batheer.Application.Families.Commands.CreateFamily.CreateFamilyCommand
+
+@{
+    bool _readonly = Model.PersonalDataForm.Id != 0;
+}
+<h4>بيانات أفراد العائلة</h4>
+<hr />
+<div class="row">
+    <a class="btn btn-outline-primary"> إنشاء فرد للعائلة</a>
+
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <td>الاسم الرباعي</td>
+                <td> تاريخ الميلاد</td>
+                <td>الجنس</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>عمر</td>
+                <td>2016-10-15</td>
+                <td>ذكر</td>
+            </tr>
+            <tr>
+                <td>صالح</td>
+                <td>2017-10-15</td>
+                <td>ذكر</td>
+            </tr>
+            <tr>
+                <td>سلمى</td>
+                <td>2018-10-15</td>
+                <td>ذكر</td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

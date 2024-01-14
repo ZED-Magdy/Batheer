@@ -1,0 +1,54 @@
+﻿@model Batheer.Application.AssociationAffiliatedProjects.Queries.GetById.AssociationAffiliatedProject
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            @*<div class="card-header">Form Elements</div>*@
+            <div class="card-body">
+                <h3>هل أنت متأكد من حذف هذا العنصر؟</h3>
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div>
+                    <h4>مشروع</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            تصنيف المشروع
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.CouncilProjectName)
+                        </dd>
+
+                        <dt class="col-sm-2">
+                            اسم المشروع
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ProjectName)
+                        </dd>
+
+                        <dt class="col-sm-2">
+                            نبذة عن المشروع
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.AboutTheProject)
+                        </dd>
+                        <dt class="col-sm-2">
+                            ملاحظات
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Notes)
+                        </dd>
+
+                    </dl>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="submit" value="حذف" class="btn btn-danger" /> |
+                        <a asp-action="Index">عودة</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

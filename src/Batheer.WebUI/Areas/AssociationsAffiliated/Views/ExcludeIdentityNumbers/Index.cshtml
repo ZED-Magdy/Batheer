@@ -1,0 +1,27 @@
+﻿@using Batheer.Application.ExcludeIdentityNumbers.Queries.GetExcludeIdentityNumbers;
+@using Batheer.Application.Modules.Lookups.Queries.GetFamilyNeedsWithDetails
+@inject MediatR.IMediator Mediator;
+@using Batheer.WebUI.Utls;
+
+
+@{
+    ViewData["Title"] = " أرقام الهويات المستبعدة من الجمعية";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h1>   أرقام الهويات المستبعدة</h1>
+                <hr />
+
+
+                <partial name="_List" model="null" />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
